@@ -1,0 +1,24 @@
+{
+  "name": "a-new-scope",
+  "version": "1.0.0",
+  "description": "Greenfield project that utilizes Web Audio Api and ThreeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/npatrick/A-New-Scope.git"
+  },
+  "keywords": [
+    "[]"
+  ],
+  "author": "A-New-$scope group",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/npatrick/A-New-Scope/issues"
+  },
+  "homepage": "https://github.com/npatrick/A-New-Scope#readme",
+  "dependencies": {
+  }
+}
