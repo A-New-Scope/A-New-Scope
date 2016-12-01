@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html ng-app="demoApp">
 <head>
 <script src="./three.js-master/build/three.js"></script>
 <script src="audio.js"></script>
@@ -7,6 +7,15 @@
 <body>
   <script src="scene.js"></script>
   <div id="audio_box"></div>
-<!--   <canvas id="analyser_render"></canvas> -->
+    <h1>demo</h1>
+
+    <div ui-view></div>
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+    <script src="demo.js"></script>
+    <script src="services.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

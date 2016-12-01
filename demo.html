@@ -1,0 +1,14 @@
+<div id='container' align="center">
+  upload a song
+  <form ng-submit="postSong(song_url)">
+  <input type="text" ng-model="song_url"></input>
+  <button>upload</button>
+  </form>
+  <br />
+  <form ng-submit="getSongs()">
+  <button>get songs</button>
+  </form>
+  <div ng-model="allSongs">
+    {{allSongs}}
+  </div>
+</div>

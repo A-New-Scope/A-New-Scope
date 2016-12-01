@@ -6,11 +6,11 @@ audio.controls = true;
 audio.autoplay = true;
 
 
-//ALL VARIABLES
-var boost, analyser;
 
 
 //INIT
+var boost, analyser;
+
 window.addEventListener("load", initMp3Player, false);
 
 function initMp3Player(){
@@ -35,7 +35,8 @@ function frameLooper(){
 
   var fbc_array = new Uint8Array(analyser.frequencyBinCount); //audio frequency data to array
   analyser.getByteFrequencyData(fbc_array);
-  boost = fbc_array[0]
+  boost = fbc_array
+  //console.log(fbc_array.length) --> 1024
   // --> new AudioContext() --> createAnalyser() --> getByteFrequencyData(frequency array)
 
 }
