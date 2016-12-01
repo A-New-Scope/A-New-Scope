@@ -8,7 +8,7 @@ audio.autoplay = true;
 
 //ALL VARIABLES
 var boost;
-var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
+var source, context, analyser, fbc_array;
 
 
 //INIT
