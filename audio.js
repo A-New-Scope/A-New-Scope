@@ -7,8 +7,7 @@ audio.autoplay = true;
 
 
 //ALL VARIABLES
-var boost;
-var source, context, analyser, fbc_array;
+var boost, analyser;
 
 
 //INIT
@@ -17,11 +16,11 @@ window.addEventListener("load", initMp3Player, false);
 function initMp3Player(){
   document.getElementById('audio_box').appendChild(audio); // append mp3 file
 
-  context = new AudioContext();
+  var context = new AudioContext();
   analyser = context.createAnalyser(); // --> getByteFrequencyData
 
   // Re-route audio playback into the processing graph of the AudioContext
-  source = context.createMediaElementSource(audio);
+  var source = context.createMediaElementSource(audio);
   source.connect(analyser);
   analyser.connect(context.destination);
 
@@ -34,10 +33,9 @@ function frameLooper(){
 
   window.requestAnimationFrame(frameLooper);
 
-  fbc_array = new Uint8Array(analyser.frequencyBinCount); //audio frequency data to array
+  var fbc_array = new Uint8Array(analyser.frequencyBinCount); //audio frequency data to array
   analyser.getByteFrequencyData(fbc_array);
   boost = fbc_array[0]
-
   // --> new AudioContext() --> createAnalyser() --> getByteFrequencyData(frequency array)
 
 }
