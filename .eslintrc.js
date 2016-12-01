@@ -1,6 +1,8 @@
 module.exports = {
   "env": {
-    "es6": true
+    "browser": true,
+    "es6": true,
+    "node": true
   },
   "extends": [
     "airbnb",
@@ -9,6 +11,7 @@ module.exports = {
     "hackreactor",
     "plugin:node/recommended"
   ],
+
   "parserOptions": {
     "sourceType": "module"
   },
@@ -17,6 +20,7 @@ module.exports = {
     "node",
     "promise"
     ],
+  "root": true,
   "rules": {
     "node/exports-style": ["error", "module.exports"],
     "no-var": "error"

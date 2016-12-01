@@ -1,8 +1,8 @@
-var express = require('express');
-var app = express();
+let express = require('express');
 
-// set a port
-var port = 3300 // TODO: add an || with process.env.PORT configuration and switch order with 3000 when complete
+let app = express();
+
+let port = 3300; // TODO: add an || with process.env.PORT configuration and switch order with 3000 when complete
 
 app.listen(port);
 console.log('listening on port ', port);

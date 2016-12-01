@@ -2,7 +2,7 @@
   "name": "thenewscope",
   "version": "1.0.0",
   "description": "THREE.js song visualizer",
-  "main": "./server/server.js",
+  "main": "./src/server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -30,6 +30,7 @@
     "eslint": "^3.11.1",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-config-angular": "^0.5.0",
+    "eslint-config-hackreactor": "github:hackreactor-labs/eslint-config-hackreactor",
     "eslint-plugin-angular": "^1.4.1",
     "eslint-plugin-html": "^1.7.0",
     "eslint-plugin-import": "^2.2.0",
@@ -39,10 +40,14 @@
     "eslint-plugin-react": "^6.7.1",
     "grunt": "^1.0.1",
     "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-csslint": "^2.0.0",
     "grunt-contrib-cssmin": "^1.0.2",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
     "load-grunt-tasks": "^3.5.2"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   }
 }
