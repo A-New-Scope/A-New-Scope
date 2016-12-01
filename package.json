@@ -1,0 +1,48 @@
+{
+  "name": "thenewscope",
+  "version": "1.0.0",
+  "description": "THREE.js song visualizer",
+  "main": "./server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A-New-Scope/A-New-Scope.git"
+  },
+  "keywords": [
+    "three.js",
+    "visualizer",
+    "web",
+    "audio",
+    "api"
+  ],
+  "author": "A New $scope",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/A-New-Scope/A-New-Scope/issues"
+  },
+  "homepage": "https://github.com/A-New-Scope/A-New-Scope#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.11.1",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-config-angular": "^0.5.0",
+    "eslint-plugin-angular": "^1.4.1",
+    "eslint-plugin-html": "^1.7.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-node": "^3.0.5",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-react": "^6.7.1",
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-eslint": "^19.0.0",
+    "load-grunt-tasks": "^3.5.2"
+  }
+}
