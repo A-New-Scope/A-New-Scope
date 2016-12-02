@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/A-New-Scope/A-New-Scope#readme",
   "dependencies": {
+    "angular": "^1.5.9",
+    "angular-ui-router": "^0.3.2",
     "express": "^4.14.0"
   },
   "devDependencies": {

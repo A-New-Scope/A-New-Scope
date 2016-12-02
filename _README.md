@@ -1,4 +1,4 @@
-# Project Name
+# A New $scope
 
 > Pithy project description
 
