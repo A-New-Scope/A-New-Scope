@@ -45,10 +45,12 @@ app.post('/areyouready', upload, function(req, res){
     writestream.on('close', function (file) {
       // do something with `file`
       console.log(file.filename + ' Written To DB');
+      fs.unlink('./uploads/' + temp)
+      res.redirect('/#/demo')
     })
 
-    fs.unlink('./uploads/' + temp)
-    res.redirect('/#/demo')
+
+
   }
 
 })
@@ -67,9 +69,10 @@ app.post('/search', function(req, res){
       readstream.pipe(writestream);
       writestream.on('close', function () {
         console.log(req.body.query+ ' written to uploads');
+        res.redirect('/#/success')
       });
 
   // res.setHeader("Accept-Ranges", "none")
   //res.redirect('/#/success')
-  res.redirect('/#/success')
+
 })
