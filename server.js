@@ -70,5 +70,6 @@ app.post('/search', function(req, res){
       });
 
   // res.setHeader("Accept-Ranges", "none")
-  res.send(req.body.query + "")
+  //res.redirect('/#/success')
+  res.redirect('/#/success')
 })

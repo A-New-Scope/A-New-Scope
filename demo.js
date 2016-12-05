@@ -8,17 +8,19 @@ angular.module('demoModule', [])
   //   })
   // }
 
-  $scope.search = function(query){
-
-    audio.src = './uploads/' + query + '.mp3'
-  }
+  // $scope.search = function(query){
+  //   audio.src = './uploads/' + query + '.mp3'
+  // }
 
   $scope.import = function(query){
     $http({
       method: 'POST',
       url: '/search',
       data: {query: query}
+    }).then(function(){
+      //$scope.search(query)
+      audio.src = './uploads/' + query + '.mp3'
+      //audio.src = './uploads/temp.mp3'
     })
   }
-  // $scope.get()
 });
