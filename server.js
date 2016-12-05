@@ -1,9 +1,9 @@
 var express = require('express');
+var app = express();
 var mongoose = require('mongoose');
 var fs = require('fs');
 var Grid = require('gridfs-stream');
 var bodyParser = require('body-parser');
-
 
 //////////////////////////MULTER//////////////////////////// --UPLOAD FILES YO
 
@@ -20,63 +20,55 @@ var upload = multer({
 
 ////////////////////////////////////////////////////////////
 
+mongoose.connect('mongodb://localhost/tracks');
+var conn = mongoose.connection;
+Grid.mongo = mongoose.mongo;
+var gfs = Grid(conn.db);
 
-var app = express();
-mongoose.connect('mongodb://localhost/demo');
-
-
-///////////////////////////GRIDFS////////////////////////// --HANDLE MONGO DB
-
-// var conn = mongoose.connection;
-// Grid.mongo = mongoose.mongo;
-
-// //change this to query by _id instead of filename to handle multiple files with same name?
-// conn.once('open', function () { //call on post request
-//     var gfs = Grid(conn.db);
-
-//     //filename to store in mongodb
-//     var writestream = gfs.createWriteStream({
-//         filename: 'demoName.txt' //make customizable from input form
-//     });
-
-//     fs.createReadStream('demoFile.txt').pipe(writestream); //link this to upload file path
-
-//     writestream.on('close', function (file) {
-//       // do something with `file`
-//       console.log(file.filename + 'Written To DB');
-
-//       //write content to file system
-//       var fs_write_stream = fs.createWriteStream('temp.txt');
-
-//       //read from mongodb
-//       var readstream = gfs.createReadStream({
-//         filename: 'demoName.txt'
-//       });
-//       readstream.pipe(fs_write_stream);
-//       fs_write_stream.on('close', function () {
-//         console.log('file has been written fully!');
-//       });
-//     });
-// });
-
-///////////////////////////////////////////////////////////
-
-
+app.use(bodyParser.json())
 app.use(express.static(__dirname)); //Frontend connectivity
 app.listen(8000);
 console.log("running on 8000")
 
-
 //--LISTENERS
-var temp;
-
 app.post('/areyouready', upload, function(req, res){
-  console.log(req.files[0].originalname)
-  temp = req.files[0].originalname
-  //res.send(req.files[0].originalname) //USE FIELDNAME FOR CUSTOM NAMING
-  res.redirect('/#/demo')
+  if(!req.files[0]){
+    res.redirect('/#/demo')
+  } else{
+    var temp = req.files[0].originalname
+
+    //filename to store in mongodb
+    var writestream = gfs.createWriteStream({
+        filename: temp
+    });
+    fs.createReadStream('./uploads/' + temp).pipe(writestream); //link this to upload file path
+    writestream.on('close', function (file) {
+      // do something with `file`
+      console.log(file.filename + ' Written To DB');
+    })
+
+    fs.unlink('./uploads/' + temp)
+    res.redirect('/#/demo')
+  }
+
 })
 
-app.get('/areyouready', function(req, res){
-  res.send(temp)
+app.post('/search', function(req, res){
+  //fs.unlink('./uploads/temp.mp3')
+
+      //write content to folder
+      var writestream = fs.createWriteStream('./uploads/'+req.body.query+'.mp3'); //name to write in upload folder
+
+      //read from mongodb
+      var readstream = gfs.createReadStream({
+        filename: req.body.query + '.mp3'
+      });
+
+      readstream.pipe(writestream);
+      writestream.on('close', function () {
+        console.log(req.body.query+ ' written to uploads');
+      });
+
+  // res.setHeader("Accept-Ranges", "none")
+  res.send(req.body.query + "")
 })

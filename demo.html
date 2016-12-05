@@ -1,7 +1,16 @@
 <div id='container' align="center">
   <form action="/areyouready", method="post", enctype="multipart/form-data">
     <input type="file", enctype="multipart/form-data" name="musicFile"></input>
-    <!-- USE NAME FIELD IN ANGULAR TO CUSTOMIZE NAME -->
-    <button>are you ready</button>
+    <button>upload</button>
+  </form>
+
+  <form ng-submit="search(searchQuery)">
+    <input type="text" ng-model="searchQuery"></input>
+    <button>search and play</button>
+  </form>
+
+  <form ng-submit="import(importQuery)">
+    <input type="text" ng-model="importQuery"></input>
+    <button>import from db</button>
   </form>
 </div>

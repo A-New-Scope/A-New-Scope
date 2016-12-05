@@ -1,7 +1,6 @@
 
 //NEW AUDIO FILE
 var audio = new Audio();
-audio.src = './uploads/21questions.mp3'
 audio.controls = true;
 audio.autoplay = true;
 
