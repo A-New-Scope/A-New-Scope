@@ -1,0 +1,57 @@
+SQL
+
+column is category
+row is entry
+
+primary keys are unique // cannot have duplicate primary key entries (ie. id primary key -- each is/must be unique)
+
+create database --dbname
+use --dbname
+
+select column, another column, ...another column from table
+select * from table
+where some column . property = other column . some property
+
+create table name varchar not null primary key
+
+
+-JOINS
+
+select from JOIN on sometable.somecolumn = anothertable.anothercolumn
+
+--inner join only returns where both have matches
+
+--left outer/right outer joins return everything from left or right side, and then the matches from other side
+  --left (outer) join table columns columns...
+  (other table column) LEFT JOIN where (this table column) = (other table another (foreign?)column)
+
+--full outer join returns everything from both tables including matches and nulls(non matches)
+
+
+-FOREIGN KEYS
+
+foreign keys make constraints on what you can enter in a column based on another column ie. if it doesn't exist in the foreign column then you cannot insert it (99 into a foreign key constrained column with rows with values 1-5)
+
+
+
+
+MONGODB
+
+-db.createCollection(name) --manual collection creation
+
+-db.collection.insert({column})
+  -db.collection.insert([{column1}, {column2}]) -- multiple insert
+  -{columnprop: ..., columnNEWPROP: ...} --will create new fields automatically
+
+-db.collection.find() --can be empty, does not require {}
+  -.pretty() --auto formatting in terminal
+  -.count() --returns number of results
+  -.forEach(function(){}) --same as js forEach
+
+-db.collection.update({column}, {new values}) --overwrite
+  -.update({column}, {$set: {new values}}) --update values
+  -.update({column}, {$inc: {column: NUMBER TO INC}}) --increment int value
+  -.update({column}, {$unset: {column: 1}}) --remove value
+  -.update({column}), {new values}, {upsert: true}) --IF NOT FOUND, INSERT; OTHERWISE UPDATE EXISTING.
+
+-db.collection.remove({column})

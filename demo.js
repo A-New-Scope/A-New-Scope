@@ -1,23 +1,24 @@
-angular.module('demoModule', ['services'])
+angular.module('demoModule', [])
 
-.controller('demoController', function($scope, SongPostService){
-  $scope.song_url = ""
-  $scope.allSongs = null
-
-  $scope.postSong = function(data){
-    SongPostService.postSong(data)
-    $scope.song_url = ""
-  }
-
-  $scope.getSongs = function(){
-    SongPostService.getSongs().then(function(data, err){
-      if(err){
-        throw err
-      }
-      $scope.allSongs = [];
-      data.data.forEach(function(item){
-        $scope.allSongs.push(item.song_url)
-      })
+.controller('demoController', function($scope, $http){
+  // $scope.post = function($http) {
+  //     $http({
+  //       method: 'POST',
+  //       url: '/areyouready',
+  //     })
+  //     .then(function(data, err){
+  //       if(err){
+  //         throw err
+  //       }
+  //       console.log(data)
+  //     })
+  // }
+  $scope.get = function(){
+    $http.get('/areyouready').then(function(res){
+      console.log(res.data)
+      audio.src = './uploads/' + res.data
     })
   }
+
+  $scope.get()
 });

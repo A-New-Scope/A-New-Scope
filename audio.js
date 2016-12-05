@@ -1,18 +1,15 @@
 
 //NEW AUDIO FILE
 var audio = new Audio();
-audio.src = 'track1.mp3';
+audio.src = './uploads/21questions.mp3'
 audio.controls = true;
 audio.autoplay = true;
 
-
-
-
-//INIT
+//LOAD -- GLOBAL VARIABLES
 var boost, analyser;
-
 window.addEventListener("load", initMp3Player, false);
 
+//INIT
 function initMp3Player(){
   document.getElementById('audio_box').appendChild(audio); // append mp3 file
 
@@ -24,19 +21,15 @@ function initMp3Player(){
   source.connect(analyser);
   analyser.connect(context.destination);
 
-  frameLooper(); //call animation
+  animate(); //call animation
 }
 
-
 //ANIMATION
-function frameLooper(){
-
-  window.requestAnimationFrame(frameLooper);
+function animate(){
+  window.requestAnimationFrame(animate);
 
   var fbc_array = new Uint8Array(analyser.frequencyBinCount); //audio frequency data to array
   analyser.getByteFrequencyData(fbc_array);
-  boost = fbc_array
-  //console.log(fbc_array.length) --> 1024
+  boost = fbc_array // --> length = 1024
   // --> new AudioContext() --> createAnalyser() --> getByteFrequencyData(frequency array)
-
 }

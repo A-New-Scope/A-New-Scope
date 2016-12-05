@@ -17,7 +17,7 @@ var render = function () {
 
   requestAnimationFrame( render );
   cube.rotation.y += 0.01;
-  cube.scale.y = (boost[0] / 25) + 0.01
+  cube.scale.y = (boost[0] / 100) + 0.01
 
   renderer.render(scene, camera);
 };

@@ -1,57 +1,82 @@
 var express = require('express');
-var mongoose = require('mongoose'); // mongoose
+var mongoose = require('mongoose');
+var fs = require('fs');
+var Grid = require('gridfs-stream');
 var bodyParser = require('body-parser');
 
-var app = express();
 
-mongoose.connect('mongodb://localhost/demo'); //create or use demo db
+//////////////////////////MULTER//////////////////////////// --UPLOAD FILES YO
+
+var multer  = require('multer');
+var storage = multer.diskStorage({
+  destination: 'uploads/', //-destination folder
+  filename: function(req, file, cb){
+    cb(null, file.originalname) //-keep original filename + extension
+  }
+})
+var upload = multer({
+  storage: storage //write to storage then pass storage to gridfs?
+}).any()
+
+////////////////////////////////////////////////////////////
+
+
+var app = express();
+mongoose.connect('mongodb://localhost/demo');
+
+
+///////////////////////////GRIDFS////////////////////////// --HANDLE MONGO DB
+
+// var conn = mongoose.connection;
+// Grid.mongo = mongoose.mongo;
+
+// //change this to query by _id instead of filename to handle multiple files with same name?
+// conn.once('open', function () { //call on post request
+//     var gfs = Grid(conn.db);
+
+//     //filename to store in mongodb
+//     var writestream = gfs.createWriteStream({
+//         filename: 'demoName.txt' //make customizable from input form
+//     });
+
+//     fs.createReadStream('demoFile.txt').pipe(writestream); //link this to upload file path
+
+//     writestream.on('close', function (file) {
+//       // do something with `file`
+//       console.log(file.filename + 'Written To DB');
+
+//       //write content to file system
+//       var fs_write_stream = fs.createWriteStream('temp.txt');
+
+//       //read from mongodb
+//       var readstream = gfs.createReadStream({
+//         filename: 'demoName.txt'
+//       });
+//       readstream.pipe(fs_write_stream);
+//       fs_write_stream.on('close', function () {
+//         console.log('file has been written fully!');
+//       });
+//     });
+// });
+
+///////////////////////////////////////////////////////////
+
 
 app.use(express.static(__dirname)); //Frontend connectivity
-app.use(bodyParser.json()); //Handle client
-
-
 app.listen(8000);
 console.log("running on 8000")
 
 
-//--MONGOOSE schema
-var Demo = mongoose.model('Demo', new mongoose.Schema({
-    song_url: {type: String}
-  })
-)
+//--LISTENERS
+var temp;
 
-//--listeners
-
-
-app.post('/demoRoute', function(req, res){ //post
-
-  //temp
-  var tempDemo = new Demo({
-    song_url: req.body.song_url
-  })
-
-  //find and insert
-  Demo.find({song_url: req.body.song_url}, function(err, data){
-    if(err){
-      throw err
-    }
-    if(!data.length){ //if not found
-      tempDemo.save(function(err){ //save to db
-        if(err){
-          throw err
-        }
-      })
-    }
-  })
+app.post('/areyouready', upload, function(req, res){
+  console.log(req.files[0].originalname)
+  temp = req.files[0].originalname
+  //res.send(req.files[0].originalname) //USE FIELDNAME FOR CUSTOM NAMING
+  res.redirect('/#/demo')
 })
 
-app.get('/demoRoute', function(req, res){ //get
-
-  Demo.find({}, function(err, data){ //find all
-    if(err){
-      throw err
-    }
-
-    res.send(data) //send response to client
-  })
-});
+app.get('/areyouready', function(req, res){
+  res.send(temp)
+})

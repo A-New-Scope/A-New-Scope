@@ -1,14 +1,7 @@
 <div id='container' align="center">
-  upload a song
-  <form ng-submit="postSong(song_url)">
-  <input type="text" ng-model="song_url"></input>
-  <button>upload</button>
+  <form action="/areyouready", method="post", enctype="multipart/form-data">
+    <input type="file", enctype="multipart/form-data" name="musicFile"></input>
+    <!-- USE NAME FIELD IN ANGULAR TO CUSTOMIZE NAME -->
+    <button>are you ready</button>
   </form>
-  <br />
-  <form ng-submit="getSongs()">
-  <button>get songs</button>
-  </form>
-  <div ng-model="allSongs">
-    {{allSongs}}
-  </div>
 </div>
