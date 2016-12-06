@@ -14,8 +14,14 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'src/client/assets/scripts',
-          src: ['*.js', '!*.min.js'],
+          cwd: 'src/client/assets',
+          src: [
+            'scripts/*.js',
+            '!scripts/babelified',
+            '!scripts/minified',
+            'views/**/*.js',
+            '!*.min.js'
+          ],
           dest: 'src/client/assets/scripts/babelified',
         }]
       }
@@ -27,7 +33,7 @@ module.exports = function(grunt) {
         separator: ';\n'
       },
       js: {
-        src: ['src/client/assets/scripts/minified/*.min.js'],
+        src: ['src/client/assets/scripts/minified/**/*.min.js'],
         dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
       },
       css: {
@@ -52,7 +58,7 @@ module.exports = function(grunt) {
         },
         src: [
           'src/client/assets/styles/*.css',
-          '!src/client/assets/styles/normalize.css'
+          '!src/client/assets/styles/normalize.css',
         ]
       }
     },
@@ -79,27 +85,41 @@ module.exports = function(grunt) {
       ]
     },
 
-    /*injector: {
+    injector: {
       // in a dev environment, inject the right CSS and JS; also inject a live-reload server
       // in production, inject the right CSS and JS
       dev: {
-        files: [{
-          expand: true,
-          cwd: 'src/client/assets',
-          src: ['scripts/app.js', 'styles/*.css']
-        }]
-
+        options: {
+          relative: true,
+        },
+        files: {
+          'src/client/index.html': [
+            'src/client/assets/scripts/app.js',
+            'src/client/assets/styles/*.css',
+          ]
+        }
+      },
+      livereload: {
+        options: {
+          prefix: 'http://localhost:35729',
+          ignorePath: 'node_modules/livereload-js/dist/',
+          starttag: '<!-- injector:js:livereload -->'
+        },
+        files: {
+          'src/client/index.html': [
+            'node_modules/livereload-js/dist/livereload.js'
+          ]
+        }
       },
       dist: {
-        files: [{
-          expand: true,
-          cwd: 'dist',
-          src: ['*.min.js', '*.min.css']
-        }]
-
+        files: {
+          'src/client/index.html': [
+            'dist/*.min.js',
+            'dist/*.min.css'
+          ]
+        }
       }
-
-    },*/
+    },
 
     htmlmin: {
       options: {
@@ -140,8 +160,8 @@ module.exports = function(grunt) {
             /*eslint-enable */
           },
           ignore: [
-            'src/client/assets/scripts/babelified/*.js',
-            'src/client/assets/scripts/minified/*.min.js'
+            'src/client/assets/scripts/babelified/**/.js',
+            'src/client/assets/scripts/minified/**/*.min.js'
           ],
           watch: ['src', 'Gruntfile.js'],
         }
@@ -153,7 +173,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/client/assets/scripts/babelified',
-          src: ['*.js', '!*.min.js'],
+          src: ['**/*.js', '!*.min.js'],
           dest: 'src/client/assets/scripts/minified',
           ext: '.min.js'
         }]
@@ -178,6 +198,7 @@ module.exports = function(grunt) {
       scripts: {
         files: [
           'src/client/assets/scripts/*.js',
+          'src/client/assets/views/**/*.js',
           '!src/client/assets/scripts/minified/*.min.js',
           '!src/client/assets/scripts/babelified/*.js'
         ],
@@ -196,7 +217,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['eslint', 'csslint']);
   grunt.registerTask('build', ['cssmin', 'babel', 'uglify', 'concat']);
   grunt.registerTask('upload', []);
-  grunt.registerTask('deploy', ['test', 'build', 'upload']);
+  grunt.registerTask('deploy', ['injector:dist', 'test', 'build', 'upload']);
 
 // TODO: delete these after configuring them and registering them as tasks
   grunt.loadNpmTasks('grunt-injector');
