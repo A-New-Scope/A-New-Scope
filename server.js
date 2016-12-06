@@ -5,7 +5,7 @@ var fs = require('fs');
 var Grid = require('gridfs-stream');
 var bodyParser = require('body-parser');
 
-//////////////////////////MULTER//////////////////////////// --UPLOAD FILES
+//////////////////////////MULTER////////////////////////////
 
 var multer  = require('multer');
 var storage = multer.diskStorage({
@@ -15,7 +15,7 @@ var storage = multer.diskStorage({
   }
 })
 var upload = multer({
-  storage: storage //write to storage then pass storage to gridfs?
+  storage: storage
 }).any()
 
 ////////////////////////////////////////////////////////////
@@ -26,26 +26,22 @@ Grid.mongo = mongoose.mongo;
 var gfs = Grid(conn.db);
 var fsFile = mongoose.model('fs.file', new mongoose.Schema())
 
-
 app.use(bodyParser.json())
 app.use(express.static(__dirname));
 app.listen(8000);
 console.log("running on 8000")
 
-//--LISTENERS
-app.post('/areyouready', upload, function(req, res){
+app.post('/upload', upload, function(req, res){
   if(!req.files[0]){
     res.redirect('/#/demo')
   } else{
     var temp = req.files[0].originalname
-
-    //filename to store in mongodb
     var writestream = gfs.createWriteStream({
-        filename: temp
+        filename: temp //filename to store in mongodb
+        //add user and animation fields HERE
     });
-    fs.createReadStream('./uploads/' + temp).pipe(writestream); //link this to upload file path
+    fs.createReadStream('./uploads/' + temp).pipe(writestream);
     writestream.on('close', function (file) {
-      // do something with `file`
       console.log(file.filename + ' Written To DB');
       fs.unlink('./uploads/' + temp)
       res.redirect('/#/demo')
@@ -54,37 +50,21 @@ app.post('/areyouready', upload, function(req, res){
 })
 
 app.post('/search', function(req, res){
-      // fs.unlink('./uploads/temp.mp3')
-      // fs.stat('./uploads/' +req.body.query + '.mp3', function(err, res){
-      //   if(err){
-      //     throw err
-      //   }
-      //   console.log(res)
-      // })
-      var temp = true
-
-      fsFile.find({filename: req.body.query + '.mp3'}).then(function(data){
-        if(!data[0]){
-          console.log("file not in db")
-          res.redirect("/#demo")
-        } else {
-          //write content to folder
-          var writestream = fs.createWriteStream('./uploads/'+req.body.query+'.mp3'); //name to write in upload folder
-          //var writestream = fs.createWriteStream('./uploads/temp.mp3')
-
-          //read from mongodb
-          var readstream = gfs.createReadStream({
-            filename: req.body.query + '.mp3'
-          });
-
-          readstream.pipe(writestream);
-          writestream.on('close', function () {
-            console.log(req.body.query + ' written to uploads');
-            res.redirect('/#/success')
-          });
-        }
-      })
-
-
-
+  fsFile.find({filename: req.body.query + '.mp3'}).then(function(data){ //search db
+    if(!data[0]){
+      console.log("file not in db")
+      res.redirect("/#demo")
+    } else {
+      var writestream = fs.createWriteStream('./uploads/'+req.body.query+'.mp3'); //write to uploads folder
+      var readstream = gfs.createReadStream({ //read from mongodb
+        filename: req.body.query + '.mp3' //(handle multiples eventually by querying by id)
+        //search by user, search by animation HERE
+      });
+      readstream.pipe(writestream);
+      writestream.on('close', function () {
+        console.log(req.body.query + ' written to uploads');
+        res.redirect('/#/success')
+      });
+    }
+  })
 })

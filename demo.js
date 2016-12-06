@@ -5,10 +5,9 @@ angular.module('demoModule', [])
     $http({
       method: 'POST',
       url: '/search',
-      data: {query: query}
+      data: {query: query} //handle animation config and user later
     }).then(function(){
       audio.src = './uploads/' + query + '.mp3'
-      //audio.src = './uploads/temp.mp3'
     })
   }
 });
