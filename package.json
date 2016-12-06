@@ -1,5 +1,5 @@
 {
-  "name": "thenewscope",
+  "name": "anewscope",
   "version": "1.0.0",
   "description": "THREE.js song visualizer",
   "main": "./src/server/server.js",
@@ -41,12 +41,14 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-react": "^6.7.1",
     "grunt": "^1.0.1",
+    "grunt-concurrent": "^2.3.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-csslint": "^2.0.0",
     "grunt-contrib-cssmin": "^1.0.2",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^19.0.0",
+    "grunt-nodemon": "^0.4.2",
     "load-grunt-tasks": "^3.5.2"
   },
   "engines": {

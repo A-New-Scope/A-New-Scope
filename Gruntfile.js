@@ -1,8 +1,8 @@
-// eslint-disable-next-line
-require('load-grunt-tasks')(grunt); // in lieu of grunt.loadNpmTasks('grunt-*'), which need to be deleted below
-
 // FIXME: test initConfig
 module.exports = function(grunt) {
+
+  // eslint-disable-next-line
+  require('load-grunt-tasks')(grunt); // in lieu of grunt.loadNpmTasks('grunt-*'), which need to be deleted below
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -11,37 +11,79 @@ module.exports = function(grunt) {
       options: {
         separator: ';\n'
       },
-      dist: {
-        src: ['src/client/assets/scripts/*.js'],
-        dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.js'
+      js: {
+        src: ['src/client/assets/scripts/minified/*.min.js'],
+        dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
+      },
+      css: {
+        src: ['src/client/assets/styles/minified/*.min.css'],
+        dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.css'
+      }
+    },
+
+    concurrent: {
+      dev: {
+        tasks: ['nodemon', 'watch'],
+        options: {
+          logConcurrentOutput: true
+        }
       }
     },
 
     csslint: {
       strict: {
         options: {
-          import: 2
+          import: 2,
         },
-        src: ['src/assets/styles/*.css']
+        src: [
+          'src/client/assets/styles/*.css',
+          '!src/client/assets/styles/normalize.css'
+        ]
       }
     },
 
     cssmin: {
-      target: {
+      options: {
+        keepSpecialComments: 0
+      },
+      dist: {
         files: [{
-          src: 'src/assets/styles/*.css',
-          dest: 'dist/css',
-          ext: '.min.css'
+          expand: true,
+          cwd: 'src/client/assets/styles',
+          src: ['*.css', '!*.min.css'],
+          dest: 'src/client/assets/styles/minified',
+          ext: '.min.css',
         }]
       }
     },
 
     eslint: {
-      target: ['src/assets/scripts/*.js']
+      target: [
+        'src/**/*.js',
+        'Gruntfile.js'
+      ]
+    },
+
+    nodemon: {
+      dev: {
+        script: 'src/server/server.js',
+        options: {
+          nodeArgs: ['--inspect']
+        }
+      }
     },
 
     uglify: {
-      //TODO
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'src/client/assets/scripts',
+          src: ['*.js', '!*.min.js'],
+          dest: 'src/client/assets/scripts/minified',
+          ext: '.min.js'
+
+        }]
+      }
     },
 
     watch: {
@@ -61,19 +103,28 @@ module.exports = function(grunt) {
         options: {
 
         }
+      },
+      html: {
+        files: 'src/client/index.html',
+        tasks: [],
+        options: {
+
+        }
       }
     }
-
   });
 
 // TODO: register tasks
-  grunt.registerTask('default', ['eslint']);
+  grunt.registerTask('default', ['dev']);
+  grunt.registerTask('dev', ['concurrent:dev']);
+  grunt.registerTask('test', ['eslint', 'csslint']);
+  grunt.registerTask('build', ['cssmin', 'uglify', 'concat']);
+  grunt.registerTask('upload', []);
+  grunt.registerTask('deploy', ['test', 'build', 'upload']);
 
 // TODO: delete these after configuring them and registering them as tasks
+  grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-csslint');
+  grunt.loadNpmTasks('grunt-nodemon');
 
 };
