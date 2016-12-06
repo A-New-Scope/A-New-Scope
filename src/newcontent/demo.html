@@ -1,0 +1,11 @@
+<div id='container' align="center">
+  <form action="/upload", method="post", enctype="multipart/form-data">
+    <input type="file", enctype="multipart/form-data" name="musicFile"></input>
+    <button>upload</button>
+  </form>
+
+  <form ng-submit="import(importQuery)">
+    <input type="text" ng-model="importQuery"></input>
+    <button>search</button>
+  </form>
+</div>
