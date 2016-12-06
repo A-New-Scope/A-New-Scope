@@ -33,6 +33,7 @@ Grid.mongo = mongoose.mongo
 var gfs = Grid(conn.db)
 var fsFile = mongoose.model('fs.file', new mongoose.Schema())
 
+<<<<<<< HEAD
 app.use(cookieParser()) // read cookies (needed for auth)
 app.use(session({
 secret: 'secret',
@@ -47,6 +48,37 @@ app.use(express.static(__dirname));
 app.listen(8000)
 
 console.log("running on 8000")
+=======
+/////////////////////////////////////////////////////////////
+// schema layout
+var userSchema = new mongoose.Schema(
+  {
+    name: 
+    {
+      first: String,
+      last: String
+    },
+  password: String,
+  song: [{type: mongoose.Schema.ObjectId, ref: 'fsFile'}]
+    // Make the fsFile have this layout at some point
+    // {
+    //   filename: temp         <====  so far, line 42 is what we have
+    //   songName: String,
+    //   artistName: String,
+    //   visual: String  // Needs to store user customization 
+    // }
+  }
+);
+
+// creating User model/collection
+var User = mongoose.model('User', userSchema);
+/////////////////////////////////////////////////////////////
+
+app.use(bodyParser.json())
+app.use(express.static(__dirname));
+app.listen(8000);
+console.log("running on 8000");
+>>>>>>> modifying local inconsistencies
 
 //////////////////////////UPLOAD////////////////////////////
 
@@ -56,7 +88,8 @@ app.post('/upload', upload, function(req, res){
   } else{
     var temp = req.files[0].originalname
     var writestream = gfs.createWriteStream({
-        filename: temp //filename to store in mongodb
+            name: req.body.name,
+            filename: temp //filename to store in mongodb
         //add user and animation fields HERE
     })
     fs.createReadStream('./uploads/' + temp).pipe(writestream)
