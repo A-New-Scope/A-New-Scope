@@ -5,7 +5,7 @@ var fs = require('fs');
 var Grid = require('gridfs-stream');
 var bodyParser = require('body-parser');
 
-//////////////////////////MULTER//////////////////////////// --UPLOAD FILES YO
+//////////////////////////MULTER//////////////////////////// --UPLOAD FILES
 
 var multer  = require('multer');
 var storage = multer.diskStorage({
@@ -24,9 +24,11 @@ mongoose.connect('mongodb://localhost/tracks');
 var conn = mongoose.connection;
 Grid.mongo = mongoose.mongo;
 var gfs = Grid(conn.db);
+var fsFile = mongoose.model('fs.file', new mongoose.Schema())
+
 
 app.use(bodyParser.json())
-app.use(express.static(__dirname)); //Frontend connectivity
+app.use(express.static(__dirname));
 app.listen(8000);
 console.log("running on 8000")
 
@@ -48,31 +50,41 @@ app.post('/areyouready', upload, function(req, res){
       fs.unlink('./uploads/' + temp)
       res.redirect('/#/demo')
     })
-
-
-
   }
-
 })
 
 app.post('/search', function(req, res){
-  //fs.unlink('./uploads/temp.mp3')
+      // fs.unlink('./uploads/temp.mp3')
+      // fs.stat('./uploads/' +req.body.query + '.mp3', function(err, res){
+      //   if(err){
+      //     throw err
+      //   }
+      //   console.log(res)
+      // })
+      var temp = true
 
-      //write content to folder
-      var writestream = fs.createWriteStream('./uploads/'+req.body.query+'.mp3'); //name to write in upload folder
+      fsFile.find({filename: req.body.query + '.mp3'}).then(function(data){
+        if(!data[0]){
+          console.log("file not in db")
+          res.redirect("/#demo")
+        } else {
+          //write content to folder
+          var writestream = fs.createWriteStream('./uploads/'+req.body.query+'.mp3'); //name to write in upload folder
+          //var writestream = fs.createWriteStream('./uploads/temp.mp3')
 
-      //read from mongodb
-      var readstream = gfs.createReadStream({
-        filename: req.body.query + '.mp3'
-      });
+          //read from mongodb
+          var readstream = gfs.createReadStream({
+            filename: req.body.query + '.mp3'
+          });
 
-      readstream.pipe(writestream);
-      writestream.on('close', function () {
-        console.log(req.body.query+ ' written to uploads');
-        res.redirect('/#/success')
-      });
+          readstream.pipe(writestream);
+          writestream.on('close', function () {
+            console.log(req.body.query + ' written to uploads');
+            res.redirect('/#/success')
+          });
+        }
+      })
 
-  // res.setHeader("Accept-Ranges", "none")
-  //res.redirect('/#/success')
+
 
 })
