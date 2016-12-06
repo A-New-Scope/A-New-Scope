@@ -1,4 +1,3 @@
-// FIXME: test initConfig
 module.exports = function(grunt) {
 
   // eslint-disable-next-line
@@ -6,6 +5,22 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['es2015']
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'src/client/assets/scripts',
+          src: ['*.js', '!*.min.js'],
+          dest: 'src/client/assets/scripts/babelified',
+        }]
+      }
+
+    },
     
     concat: {
       options: {
@@ -58,17 +73,77 @@ module.exports = function(grunt) {
     },
 
     eslint: {
-      target: [
+      js: [
         'src/**/*.js',
-        'Gruntfile.js'
+        'Gruntfile.js',
       ]
+    },
+
+    /*injector: {
+      // in a dev environment, inject the right CSS and JS; also inject a live-reload server
+      // in production, inject the right CSS and JS
+      dev: {
+        files: [{
+          expand: true,
+          cwd: 'src/client/assets',
+          src: ['scripts/app.js', 'styles/*.css']
+        }]
+
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'dist',
+          src: ['*.min.js', '*.min.css']
+        }]
+
+      }
+
+    },*/
+
+    htmlmin: {
+      options: {
+        // TODO: add minify rules, see here
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      dist: {
+        'dist/index.html': 'src/client/index.html'
+      }
     },
 
     nodemon: {
       dev: {
         script: 'src/server/server.js',
         options: {
-          nodeArgs: ['--inspect']
+          nodeArgs: ['--inspect'],
+          callback: function (nodemon) {
+            nodemon.on('log', function (event) {
+              /* eslint-disable */
+              console.log(event.colour);
+            });
+
+            // opens browser on initial server start
+            nodemon.on('config:update', function () {
+              // Delay before server listens on port
+              setTimeout(function() {
+                require('opn')('http://localhost:3300');
+              }, 1000);
+            });
+
+            // refreshes browser when server reboots
+            nodemon.on('restart', function () {
+              // Delay before server listens on port
+              setTimeout(function() {
+                require('fs').writeFileSync('.rebooted', 'rebooted');
+              }, 1000);
+            });
+            /*eslint-enable */
+          },
+          ignore: [
+            'src/client/assets/scripts/babelified/*.js',
+            'src/client/assets/scripts/minified/*.min.js'
+          ],
+          watch: ['src', 'Gruntfile.js'],
         }
       }
     },
@@ -77,39 +152,40 @@ module.exports = function(grunt) {
       target: {
         files: [{
           expand: true,
-          cwd: 'src/client/assets/scripts',
+          cwd: 'src/client/assets/scripts/babelified',
           src: ['*.js', '!*.min.js'],
           dest: 'src/client/assets/scripts/minified',
           ext: '.min.js'
-
         }]
       }
     },
 
     watch: {
       options: {
-        livereload: true // on 35729 by default or 3300 where our server is?
+        livereload: true // runs on 35729 by default; to change, replace true => some other number
       },
       css: {
-        files: 'src/client/assets/styles/*.css',
-        tasks: [],
-        options: {
-          
-        }
+        files: [
+          'src/client/assets/styles/*.css',
+          '!src/client/assets/styles/minified/*.min.css'
+        ],
+        tasks: ['cssmin', 'concat:css'],
+      },
+      gruntfile: {
+        files: ['Gruntfile.js'],
+        tasks: ['eslint']
       },
       scripts: {
-        files: 'src/client/assets/scripts/*.js',
-        tasks: [],
-        options: {
-
-        }
+        files: [
+          'src/client/assets/scripts/*.js',
+          '!src/client/assets/scripts/minified/*.min.js',
+          '!src/client/assets/scripts/babelified/*.js'
+        ],
+        tasks: ['babel', 'uglify', 'concat:js'],
       },
       html: {
-        files: 'src/client/index.html',
-        tasks: [],
-        options: {
-
-        }
+        files: ['src/client/**/*.html'],
+        tasks: ['htmlmin'],
       }
     }
   });
@@ -118,13 +194,11 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['dev']);
   grunt.registerTask('dev', ['concurrent:dev']);
   grunt.registerTask('test', ['eslint', 'csslint']);
-  grunt.registerTask('build', ['cssmin', 'uglify', 'concat']);
+  grunt.registerTask('build', ['cssmin', 'babel', 'uglify', 'concat']);
   grunt.registerTask('upload', []);
   grunt.registerTask('deploy', ['test', 'build', 'upload']);
 
 // TODO: delete these after configuring them and registering them as tasks
-  grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-injector');
 
 };
