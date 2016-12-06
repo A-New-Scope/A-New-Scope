@@ -83,3 +83,4 @@ Thumbs.db
 
 # API keys and other protected files
 config.js
+.rebooted

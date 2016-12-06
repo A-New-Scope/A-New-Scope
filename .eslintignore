@@ -2,3 +2,5 @@
 
 # Ignore built files
 dist
+src/client/assets/scripts/babelified
+src/client/assets/scripts/minified
