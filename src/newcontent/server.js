@@ -33,7 +33,6 @@ Grid.mongo = mongoose.mongo
 var gfs = Grid(conn.db)
 var fsFile = mongoose.model('fs.file', new mongoose.Schema())
 
-<<<<<<< HEAD
 app.use(cookieParser()) // read cookies (needed for auth)
 app.use(session({
 secret: 'secret',
@@ -48,7 +47,7 @@ app.use(express.static(__dirname));
 app.listen(8000)
 
 console.log("running on 8000")
-=======
+
 /////////////////////////////////////////////////////////////
 // schema layout
 var userSchema = new mongoose.Schema(
@@ -74,11 +73,6 @@ var userSchema = new mongoose.Schema(
 var User = mongoose.model('User', userSchema);
 /////////////////////////////////////////////////////////////
 
-app.use(bodyParser.json())
-app.use(express.static(__dirname));
-app.listen(8000);
-console.log("running on 8000");
->>>>>>> modifying local inconsistencies
 
 //////////////////////////UPLOAD////////////////////////////
 
