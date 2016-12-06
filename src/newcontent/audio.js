@@ -1,3 +1,4 @@
+//move and transcribe for angularjs
 
 //NEW AUDIO FILE
 var audio = new Audio();
@@ -10,7 +11,7 @@ window.addEventListener("load", initMp3Player, false);
 
 //INIT
 function initMp3Player(){
-  document.getElementById('audio_box').appendChild(audio); // append mp3 file
+  document.getElementById('audio').appendChild(audio); // append mp3 file
 
   var context = new AudioContext();
   analyser = context.createAnalyser(); // --> getByteFrequencyData

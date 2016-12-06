@@ -3,7 +3,7 @@ var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeig
 
 var renderer = new THREE.WebGLRenderer({alpha: true});
 renderer.setSize( window.innerWidth / 2, window.innerHeight / 2);
-document.body.appendChild( renderer.domElement );
+document.body.appendChild( renderer.domElement ); //point this to an angular view
 
 var geometry = new THREE.BoxGeometry( 1, 2, 2 );
 var material = new THREE.MeshBasicMaterial( { color: 'blue' } );
