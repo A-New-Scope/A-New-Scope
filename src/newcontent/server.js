@@ -49,40 +49,6 @@ app.listen(8000)
 
 console.log("running on 8000")
 
-/////////////////////////////////////////////////////////////
-// schema layout
-var userSchema = new mongoose.Schema(
-  {
-    name: 
-    {
-      first: String,
-      last: String
-    },
-  password: String,
-  song: [{type: mongoose.Schema.ObjectId, ref: 'fsFile'}]
-<<<<<<< HEAD
-=======
-    // Make the fsFile have this layout at some point
-    // {
-    //   filename: temp         <====  so far, line 42 is what we have
-    //   songName: String,
-    //   artistName: String,
-    //   visual: String  // Needs to store user customization 
-    // }
->>>>>>> 21599570034d6846a1707e6bb8db076141536c5e
-  }
-);
-
-// creating User model/collection
-var User = mongoose.model('User', userSchema);
-<<<<<<< HEAD
-
-module.exports = {User: User};
-=======
->>>>>>> 21599570034d6846a1707e6bb8db076141536c5e
-/////////////////////////////////////////////////////////////
-
-
 //////////////////////////UPLOAD////////////////////////////
 
 app.post('/upload', upload, function(req, res){
@@ -91,10 +57,6 @@ app.post('/upload', upload, function(req, res){
   } else {
     var temp = req.files[0].originalname
     var writestream = gfs.createWriteStream({
-<<<<<<< HEAD
-=======
-            name: req.body.name,
->>>>>>> 21599570034d6846a1707e6bb8db076141536c5e
             filename: temp //filename to store in mongodb
         //add user and animation fields HERE
     })
