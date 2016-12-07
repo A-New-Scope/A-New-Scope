@@ -1,5 +1,5 @@
 angular.module('searchModule', [])
-.controller('searchController', function($scope, $http){
+.controller('searchController', function($scope, $http, $state){
   $scope.results = {}
 
   $scope.searchAll = function(query){
@@ -15,6 +15,6 @@ angular.module('searchModule', [])
   }
 
   $scope.navTo = function(item){
-    console.log(item)
+    $state.go('profile', {profileId: item})
   }
 })

@@ -14,7 +14,6 @@ angular.module('userModule', [])
       } //handle animation later
     }).then(function(res){
       if(res.data){
-        //audio.src = '/uploadTest/21QuestionsFromDB.mp3'
         audio.src = 'imports/' + filename
       }
 

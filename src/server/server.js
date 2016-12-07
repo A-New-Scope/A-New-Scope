@@ -86,10 +86,10 @@ app.post('/upload', isLoggedIn, upload, function(req, res){
   }
 })
 
-app.post('/import', isLoggedIn, function(req, res){ //FIX ME!!!!!!!!!!!!
+app.post('/import', /*isLoggedIn,*/ function(req, res){
   fsFile.find({
     filename: req.body.filename,
-    "metadata.username": req.session.passport.user,
+    "metadata.username": req.session.passport ? req.session.passport.user : req.body.username,
     "metadata.songName": req.body.songName
   }).then(function(data){ //search db
     if(!data[0]){
@@ -112,11 +112,18 @@ app.post('/import', isLoggedIn, function(req, res){ //FIX ME!!!!!!!!!!!!
 
 app.get('/userCollection', isLoggedIn, function(req, res){
   fsFile.find({"metadata.username": req.session.passport.user}).then(function(data){
-    console.log(data)
+    //console.log(data)
     res.send(data)
   })
 }) //add a way to edit your collection too
   //add and remove from upload page
+
+app.post('/publicCollection', function(req, res){
+  fsFile.find({"metadata.username": req.body.username}).then(function(data){
+    //console.log(data)
+    res.send(data)
+  })
+})
 
 app.post('/search', function(req, res){
   var query = req.body.query
