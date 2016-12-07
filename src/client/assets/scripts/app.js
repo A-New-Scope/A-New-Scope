@@ -2,7 +2,7 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
 
 .config(function($stateProvider, $urlRouterProvider){
 
-  function checkSession($state, $http){
+  let checkSession = function($state, $http){
     $http({
       method: 'GET',
       url: '/auth'
