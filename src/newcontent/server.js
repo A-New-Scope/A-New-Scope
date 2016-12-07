@@ -230,3 +230,22 @@ function isLoggedIn(req, res, next) { //check session active
 }
 
 ////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////
+// schema layout
+// var userSchema = new mongoose.Schema(
+//   {
+//     name: 
+//     {
+//       first: String,
+//       last: String
+//     },
+//   password: String,
+//   song: [{type: mongoose.Schema.ObjectId, ref: 'fsFile'}]
+//   }
+// );
+
+// // creating User model/collection
+// var User = mongoose.model('User', userSchema);
+
+/////////////////////////////////////////////////////////////
