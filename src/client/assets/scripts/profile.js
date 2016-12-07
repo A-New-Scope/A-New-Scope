@@ -1,14 +1,14 @@
-angular.module('userModule', [])
-
-.controller('userController', function($scope, $http, $state){
+angular.module('profileModule', [])
+.controller('profileController', function($scope, $http, $stateParams){
+  $scope.displayMsg = "profile for " + $stateParams.profileId
   $scope.collectionData = []
 
-  //MAKE SEPERATE SEARCH VIEW LATER
-  $scope.import = function(filename, songName){ //INTERNAL METHOD CALLED ON COLLECTION CLICK
+  $scope.import = function(filename, songName){
     $http({
       method: 'POST',
       url: '/import',
       data: {
+        username: $stateParams.profileId,
         filename: filename,
         songName: songName
       } //handle animation later
@@ -16,24 +16,18 @@ angular.module('userModule', [])
       if(res.data){
         audio.src = 'imports/' + filename
       }
-
     })
   }
 
-  $scope.logout = function(){ //MOVE TO FACTORY LATER
+  $scope.publicCollection = function(){
     $http({
-      method: 'GET',
-      url: '/logout'
-    })
-    audio.src = null
-    $state.go('login')
-  }
-
-  $scope.userCollection = function(){
-    $http({
-      method: 'GET',
-      url: '/userCollection'
+      method: 'POST',
+      url: '/publicCollection',
+      data: {username: $stateParams.profileId}
     }).then(function(data){
+      if(!data.data.length){
+        $scope.displayMsg = "user not found!"
+      }
       data.data.forEach(function(item){
         $scope.collectionData.push({
           filename: item.filename,
@@ -44,5 +38,5 @@ angular.module('userModule', [])
     })
   }
 
-  $scope.userCollection();
-});
+  $scope.publicCollection();
+})

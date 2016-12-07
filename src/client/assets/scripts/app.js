@@ -1,4 +1,4 @@
-angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModule'])
+angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModule', 'profileModule'])
 
 .config(function($stateProvider, $urlRouterProvider){
 
@@ -38,5 +38,10 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
       url:"/search",
       templateUrl: 'assets/views/search/search.html',
       controller: 'searchController'
+    })
+    .state('profile', {
+      url: '/profile/:profileId',
+      templateUrl: 'assets/views/profile/profile.html',
+      controller: 'profileController'
     })
 })

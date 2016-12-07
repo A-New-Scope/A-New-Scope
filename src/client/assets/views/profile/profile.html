@@ -1,0 +1,8 @@
+<div ng-model="displayMsg">
+  {{displayMsg}}
+</div>
+
+<h2>uploads</h2>
+<div ng-repeat="item in collectionData" ng-click="import(item.filename, item.songName)">
+  {{item.songName}}
+</div>
