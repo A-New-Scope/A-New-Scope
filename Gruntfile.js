@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
-  // eslint-disable-next-line
+  /* eslint import/no-extraneous-dependencies: "off", node/no-unpublished-require: "off",
+   angular/timeout-service: "off", angular/log: "off", no-console: "off" */
   require('load-grunt-tasks')(grunt); // in lieu of grunt.loadNpmTasks('grunt-*'), which need to be deleted below
 
   grunt.initConfig({
@@ -138,7 +139,6 @@ module.exports = function(grunt) {
           nodeArgs: ['--inspect'],
           callback: function (nodemon) {
             nodemon.on('log', function (event) {
-              /* eslint-disable */
               console.log(event.colour);
             });
 
@@ -157,7 +157,6 @@ module.exports = function(grunt) {
                 require('fs').writeFileSync('.rebooted', 'rebooted');
               }, 1000);
             });
-            /*eslint-enable */
           },
           ignore: [
             'src/client/assets/scripts/babelified/**/.js',
@@ -211,7 +210,7 @@ module.exports = function(grunt) {
     }
   });
 
-// TODO: register tasks
+  // TODO: register tasks
   grunt.registerTask('default', ['dev']);
   grunt.registerTask('dev', ['concurrent:dev']);
   grunt.registerTask('test', ['eslint', 'csslint']);
@@ -219,7 +218,7 @@ module.exports = function(grunt) {
   grunt.registerTask('upload', []);
   grunt.registerTask('deploy', ['injector:dist', 'test', 'build', 'upload']);
 
-// TODO: delete these after configuring them and registering them as tasks
+  // TODO: delete these after configuring them and registering them as tasks
   grunt.loadNpmTasks('grunt-injector');
 
 };
