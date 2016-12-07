@@ -26,7 +26,6 @@ module.exports = function(grunt) {
           dest: 'src/client/assets/scripts/babelified',
         }]
       }
-
     },
     
     concat: {
@@ -216,7 +215,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['eslint', 'csslint']);
   grunt.registerTask('build', ['cssmin', 'babel', 'uglify', 'concat']);
   grunt.registerTask('upload', []);
-  grunt.registerTask('deploy', ['injector:dist', 'test', 'build', 'upload']);
+  grunt.registerTask('deploy', ['test', 'build', 'upload']);
 
   // TODO: delete these after configuring them and registering them as tasks
   grunt.loadNpmTasks('grunt-injector');
