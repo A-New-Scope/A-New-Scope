@@ -81,6 +81,11 @@ bower_components
 ehthumbs.db
 Thumbs.db
 
-# API keys and other protected files
-config.js
+# Grunt generated files
+src/client/assets/scripts/babelified
+src/client/assets/scripts/minified
+src/client/assets/styles/minified
 .rebooted
+
+# API Keys
+config.js

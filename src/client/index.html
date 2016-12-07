@@ -1,18 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="demoApp">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>a new $scope: greenfield three.js song visualizer</title>
-  <link rel="stylesheet" href="./assets/styles/normalize.css">
-  <link rel="stylesheet" href="./assets/styles/styles.css">
-  <script src="//localhost:35729/livereload.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+
+  <script src="assets/scripts/audio.js"></script>
+  <script src="assets/scripts/auth.js"></script>
+  <script src="assets/scripts/app.js"></script>
+
+  <script src="assets/views/demo/demo.js"></script>
   <!-- injector:css -->
+  <link rel="stylesheet" href="assets/styles/normalize.css">
+  <link rel="stylesheet" href="assets/styles/styles.css">
   <!-- endinjector -->
   <!-- injector:js -->
   <!-- endinjector -->
+  <!-- injector:js:livereload -->
+  <!-- endinjector -->
 </head>
 <body>
-  <h1>testing.</h1>
+  <script src="assets/scripts/scene.js"></script>
+  <h1>demo</h1>
+
+  <div id="audio"></div>
+  <div ui-view></div>
+
 </body>
 </html>
