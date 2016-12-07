@@ -1,6 +1,6 @@
 angular.module('profileModule', [])
 .controller('profileController', function($scope, $http, $stateParams){
-  $scope.profileId = $stateParams.profileId
+  $scope.displayMsg = "profile for " + $stateParams.profileId
   $scope.collectionData = []
 
   $scope.import = function(filename, songName){
@@ -8,7 +8,7 @@ angular.module('profileModule', [])
       method: 'POST',
       url: '/import',
       data: {
-        username: $scope.profileId,
+        username: $stateParams.profileId,
         filename: filename,
         songName: songName
       } //handle animation later
@@ -16,7 +16,6 @@ angular.module('profileModule', [])
       if(res.data){
         audio.src = 'imports/' + filename
       }
-
     })
   }
 
@@ -24,8 +23,11 @@ angular.module('profileModule', [])
     $http({
       method: 'POST',
       url: '/publicCollection',
-      data: {username: $scope.profileId}
+      data: {username: $stateParams.profileId}
     }).then(function(data){
+      if(!data.data.length){
+        $scope.displayMsg = "user not found!"
+      }
       data.data.forEach(function(item){
         $scope.collectionData.push({
           filename: item.filename,
