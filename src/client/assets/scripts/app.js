@@ -11,7 +11,7 @@ angular.module('demoApp', ['ui.router', 'demoModule', 'authModule'])
         $state.go('login');
       }
     });
-  }
+  };
 
   $urlRouterProvider.otherwise('/login');
 
