@@ -4,6 +4,7 @@ var express = require('express')
 var session = require('express-session')
 var mongoose = require('mongoose')
 var fs = require('fs')
+var bcrypt = require('bcrypt')
 var Grid = require('gridfs-stream')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
@@ -90,7 +91,20 @@ app.post('/search', function(req, res){
 
 ////////////////////////PASSPORT////////////////////////////
 
-//todo- create user schema with generate password and check password methods
+var userSchema = mongoose.Schema({
+  username: {type: String, required: true},
+  password: {type: String, required: true}
+})
+
+userSchema.methods.generateHash = function(password){
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+}
+
+userSchema.methods.comparePassword = function(password){
+  return bcrypt.compareSync(password, this.password)
+}
+
+var User = mongoose.model('User', userSchema)
 
 passport.serializeUser(function(user, done) { //for session use
   done(null, user);
@@ -99,27 +113,50 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-passport.use('login', //login strategy --set to admin for now (no schema/db save)
+passport.use('login',
   new LocalStrategy(function(username, password, done){
-  console.log("username: ", username)
-  console.log("password: ", password)
-  if(username !== "admin" || password !== "admin"){
-    console.log("auth failed")
-    return done(null, false)
-  } else {
-    console.log("success")
-    return done(null, username)
-  }
+    User.findOne({'username': username}, function(err, data){
+      if(!data){
+        console.log("user not found")
+        return done(null, false)
+      }
+      if(!data.comparePassword(password)){
+        console.log("invalid password")
+        return done(null, false)
+      } else {
+        return done(null, username)
+      }
+    })
+}))
+
+passport.use('signup', new LocalStrategy(function(username, password, done){
+  process.nextTick(function(){
+    User.find({'username': username}, function(err, data){
+      if(!data.length){
+        var temp = new User({ //create a new user to store in db
+          username: username
+        })
+        temp.password = temp.generateHash(password)
+        temp.save(function(err){
+          if(err){
+            throw err
+          }
+          console.log("registered user", username)
+          return done(null, username)
+        })
+      } else {
+        console.log("user already exists")
+        return done(null, false)
+      }
+    })
+  })
 }))
 
 app.post('/login', passport.authenticate('login'), function(req, res){
   res.end()
 })
 
-app.post('/signup', function(req, res){
-  //check db for duplicates
-  //hash and save credentials if valid
-  console.log("placeholder route")
+app.post('/signup', passport.authenticate('signup'), function(req, res){
   res.end()
 })
 
@@ -131,7 +168,6 @@ app.get('/logout', function(req, res){
   req.logout()
   res.end()
 })
-
 
 function isLoggedIn(req, res, next) { //check session active
   console.log(req.session.passport ? "session: " + req.session.passport.user : "no session active")

@@ -21,6 +21,5 @@ angular.module('authModule', [])
         password: pass
       }
     })
-    //go somewhere do something
   }
 })
