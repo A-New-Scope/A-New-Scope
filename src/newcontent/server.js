@@ -60,18 +60,13 @@ var userSchema = new mongoose.Schema(
     },
   password: String,
   song: [{type: mongoose.Schema.ObjectId, ref: 'fsFile'}]
-    // Make the fsFile have this layout at some point
-    // {
-    //   filename: temp         <====  so far, line 42 is what we have
-    //   songName: String,
-    //   artistName: String,
-    //   visual: String  // Needs to store user customization 
-    // }
   }
 );
 
 // creating User model/collection
 var User = mongoose.model('User', userSchema);
+
+module.exports = {User: User};
 /////////////////////////////////////////////////////////////
 
 
@@ -106,10 +101,9 @@ var User = mongoose.model('User', userSchema);
 app.post('/upload', upload, function(req, res){
   if(!req.files[0]){
     res.redirect('/#/demo')
-  } else{
+  } else {
     var temp = req.files[0].originalname
     var writestream = gfs.createWriteStream({
-            name: req.body.name,
             filename: temp //filename to store in mongodb
         //add user and animation fields HERE
     })
