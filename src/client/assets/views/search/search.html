@@ -1,0 +1,18 @@
+<div>
+<form ng-submit="searchAll(input)">
+<input type="text" ng-model="input"></input>
+<button>search</button>
+</form>
+
+<h2>song matches</h2>
+<div ng-repeat="song in results.songs" ng-click="navTo(song.metadata.username)">
+<h4>{{song.metadata.songName}}</h4>
+{{song.metadata.username}}
+</div>
+
+<h2>user matches</h2>
+<div ng-model="results.users" ng-click="navTo(results.users)">
+{{results.users}}
+</div>
+
+</div>

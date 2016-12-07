@@ -5,17 +5,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>a new $scope: greenfield three.js song visualizer</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.min.js" integrity="sha256-xSfk1YU5PcIcFI45sbeoAZfcAPxmulrxHleQaCJQ3Jc=" crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js" integrity="sha256-jUHgsHoPXAh7OyogDZWIrwTF8PXRiRg+mdxod+c295k=" crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js" integrity="sha256-/AKnHXEmo4fJ1xZhpvxmh/PRv1eqIRAGdBSvqiPuhTw=" crossorigin="anonymous"></script>
 
   <script src="assets/scripts/audio.js"></script>
   <script src="assets/scripts/auth.js"></script>
+  <script src="assets/scripts/user.js"></script>
+  <script src="assets/scripts/search.js"></script>
   <script src="assets/scripts/app.js"></script>
 
-  <script src="assets/views/demo/demo.js"></script>
+<!--   <script src="/assets/views/demo/demo.js"></script> -->
   <!-- injector:css -->
   <link rel="stylesheet" href="assets/styles/normalize.css">
   <link rel="stylesheet" href="assets/styles/styles.css">
@@ -31,6 +33,7 @@
 
   <div id="audio"></div>
   <div ui-view></div>
+  <a ui-sref="search">search</a>
 
 </body>
 </html>
