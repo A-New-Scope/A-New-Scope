@@ -49,6 +49,7 @@ app.listen(8000)
 
 console.log("running on 8000")
 
+<<<<<<< HEAD
 /////////////////////////////////////////////////////////////
 // schema layout
 var userSchema = new mongoose.Schema(
@@ -96,6 +97,8 @@ var User = mongoose.model('User', userSchema);
 /////////////////////////////////////////////////////////////
 
 
+=======
+>>>>>>> git changes
 //////////////////////////UPLOAD////////////////////////////
 
 app.post('/upload', upload, function(req, res){
