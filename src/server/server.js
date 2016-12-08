@@ -79,9 +79,10 @@ app.post('/upload', isLoggedIn, upload, function(req, res){
 })
 
 app.post('/import', /*isLoggedIn,*/ function(req, res){
+  console.log("passport:", req.session.passport)
   fsFile.find({
     filename: req.body.filename,
-    "metadata.username": req.session.passport ? req.session.passport.user : req.body.username,//fix later
+    "metadata.username": req.body.username,//fix later to not rely on session
     "metadata.songName": req.body.songName
   }).then(function(data){ //search db
     if(!data[0]){
@@ -145,6 +146,10 @@ app.post('/search', function(req, res){
       res.send(temp)
     })
   })
+})
+
+app.get('/getCurrentSession', isLoggedIn, function(req, res){
+  res.send(req.session.passport.user)
 })
 
 ////////////////////////PASSPORT////////////////////////////

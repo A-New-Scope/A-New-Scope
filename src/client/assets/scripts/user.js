@@ -3,21 +3,6 @@ angular.module('userModule', [])
 .controller('userController', function($scope, $http, $state){
   $scope.collectionData = []
 
-  $scope.import = function(filename, songName){ //replace with edit and remove method, import on profile
-    $http({
-      method: 'POST',
-      url: '/import',
-      data: {
-        filename: filename,
-        songName: songName
-      } //handle animation later
-    }).then(function(res){
-      if(res.data){
-        audio.src = 'imports/' + filename
-      }
-    })
-  }
-
   $scope.edit = function(filename, songName){
     $state.go('edit', {trackId: songName})
   }
@@ -27,7 +12,6 @@ angular.module('userModule', [])
       method: 'GET',
       url: '/logout'
     })
-    audio.src = null
     $state.go('login')
   }
 
@@ -43,6 +27,15 @@ angular.module('userModule', [])
           songName: item.metadata.songName
         })
       })
+    })
+  }
+
+  $scope.navToProfile = function(){
+    $http({
+      method: 'GET',
+      url: '/getCurrentSession'
+    }).then(function(data){
+      $state.go('profile', {profileId: data.data})
     })
   }
 
