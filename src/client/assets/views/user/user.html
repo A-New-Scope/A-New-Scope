@@ -1,4 +1,3 @@
-<!-- <script src="scene.js"></script> -->
 <div id='container' align="center">
   <form action="/upload", method="post", enctype="multipart/form-data">
     <input type="file", enctype="multipart/form-data" name="musicFile"></input>
@@ -6,18 +5,11 @@
     <input type="text", name="songName"></input>
     <button>upload</button>
   </form>
-<!--   move me to upload view later
- -->
- <br />
 
-
-<!--   <form ng-submit="import(importQuery)">
-    <input type="text" ng-model="importQuery"></input>
-    <button>search</button>
-  </form> -->
+  <br />
 
   <h2> your uploads </h2>
-  <div ng-repeat="item in collectionData" ng-click="import(item.filename, item.songName)">
+  <div ng-repeat="item in collectionData" ng-click="edit(item.filename, item.songName)">
     {{item.songName}}
   </div>
 
