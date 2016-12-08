@@ -85,6 +85,16 @@ module.exports = function(grunt) {
       ]
     },
 
+    env: {
+      //TO DO
+      dev: {
+
+      },
+      production: {
+
+      }
+    },
+
     injector: {
       // in a dev environment, inject the right CSS and JS; also inject a live-reload server
       // in production, inject the right CSS and JS
@@ -129,6 +139,10 @@ module.exports = function(grunt) {
       dist: {
         'dist/index.html': 'src/client/index.html'
       }
+    },
+
+    ngAnnotate: {
+      //TODO
     },
 
     nodemon: {
