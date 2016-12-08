@@ -2,6 +2,7 @@ angular.module('userModule', [])
 
 .controller('userController', function($scope, $http, $state){
   $scope.collectionData = []
+  $scope.profilePicture = null
 
   $scope.edit = function(filename, songName){
     $state.go('edit', {trackId: songName})
@@ -39,6 +40,40 @@ angular.module('userModule', [])
     })
   }
 
-  $scope.userCollection();
-  //add link to public profile
+  $scope.getCurrentSession = function(){
+    $http({
+      method: 'GET',
+      url: '/getCurrentSession'
+    }).then(function(res){
+      $scope.importPicture(res.data)
+    })
+  }
+
+  $scope.importPicture = function(username){
+    $http({
+      method: 'POST',
+      url: '/importPicture',
+      data: {
+        username: username
+      }
+    }).then(function(data){
+      if(data.data){
+        $scope.profilePicture = 'imports/' + username + '.png'
+      }
+    })
+  }
+
+  $scope.removePicture = function(){
+    $http({
+      method: 'GET',
+      url: '/removePicture'
+    }).then(function(){
+      $scope.profilePicture = null
+    })
+  }
+
+
+  $scope.getCurrentSession();
+  $scope.userCollection()
+  // $scope.importPicture($scope.currentSession)
 });

@@ -1,5 +1,6 @@
 angular.module('profileModule', [])
 .controller('profileController', function($scope, $http, $stateParams){
+  $scope.profilePicture = null
   $scope.profileId = $stateParams.profileId
   $scope.displayMsg = "profile for " + $stateParams.profileId
   $scope.collectionData = []
@@ -39,5 +40,20 @@ angular.module('profileModule', [])
     })
   }
 
-  $scope.publicCollection();
+  $scope.importPicture = function(){
+    $http({
+      method: 'POST',
+      url: '/importPicture',
+      data: {
+        username: $stateParams.profileId
+      }
+    }).then(function(res){
+      if(res.data){
+        $scope.profilePicture = 'imports/' + $stateParams.profileId + '.png'
+      }
+    })
+  }
+
+  $scope.importPicture()
+  $scope.publicCollection()
 })

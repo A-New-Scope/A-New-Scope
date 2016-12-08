@@ -1,8 +1,7 @@
 //TO DO
 //LEARN MODULE.EXPORTS SUCKER --THIS FILE IS HUGE
-//REDIRECT LINKS THAT SHOW/HIDE BASED ON SESSION (IE. 'GO TO MY PROFILE' ETC) ng-show????
-//SHOW LATEST SONGS ADDED
 //FLASH SUCCESS/FAILURE MESSAGES ON EDIT AND LOGIN/SIGNUP
+//PERIODICALLY EMPTY 'IMPORTS' FOLDER
 
 /////////////////////////DEPENDENCIES///////////////////////
 
@@ -57,6 +56,7 @@ console.log("running on 3300")
 
 //////////////////////////UPLOAD////////////////////////////
 
+//--UPLOAD SONG
 app.post('/upload', isLoggedIn, upload, function(req, res){
   if(!req.files[0]){
     res.redirect('/#/user')
@@ -78,11 +78,10 @@ app.post('/upload', isLoggedIn, upload, function(req, res){
   }
 })
 
-app.post('/import', /*isLoggedIn,*/ function(req, res){
-  console.log("passport:", req.session.passport)
+app.post('/import', function(req, res){
   fsFile.find({
     filename: req.body.filename,
-    "metadata.username": req.body.username,//fix later to not rely on session
+    "metadata.username": req.body.username,
     "metadata.songName": req.body.songName
   }).then(function(data){ //search db
     if(!data[0]){
@@ -102,6 +101,65 @@ app.post('/import', /*isLoggedIn,*/ function(req, res){
     }
   })
 })
+
+
+//-UPLOAD PROFILE PICTURE
+app.post('/uploadPicture', isLoggedIn, upload, function(req, res){
+  console.log(req.files[0])
+  if(!req.files[0]){
+    res.redirect('/#/user')
+  } else{
+    var temp = req.files[0].originalname
+    var writestream = gfs.createWriteStream({
+        //filename to store in mongodb
+        metadata: {
+          username: req.session.passport.user,
+          type: "image"
+        }
+    })
+    fs.createReadStream('./uploadTemp/' + temp).pipe(writestream)
+    writestream.on('close', function (file) {
+      console.log(file.filename + ' Written To DB')
+      fs.unlink('./uploadTemp/' + temp)
+      res.redirect('/#/user')
+    })
+  }
+})
+
+app.post('/importPicture', function(req, res){
+  if(req.body === null){
+    req.body.username = req.session.passport.user
+  }
+  fsFile.find({
+    "metadata.username": req.body.username,
+    "metadata.type": "image"
+  }).then(function(data){ //search db
+    if(!data[0]){
+      console.log("file not in db")
+      res.end()
+    } else {
+      var writestream = fs.createWriteStream('./src/client/imports/'+req.body.username+'.png') //write to uploads folder
+      var readstream = gfs.createReadStream({ //read from mongodb
+        filename: req.body.filename
+      })
+      readstream.pipe(writestream)
+      writestream.on('close', function () {
+        console.log(req.body.username + '.png written to uploads');
+        res.end("success")
+      })
+    }
+  })
+})
+
+app.get('/removePicture', isLoggedIn, function(req, res){
+  fsFile.remove({
+    "metadata.username": req.session.passport.user,
+    "metadata.type": "image"
+  }).then(function(){
+    res.end()
+  })
+})
+
 
 app.get('/userCollection', isLoggedIn, function(req, res){
   fsFile.find({"metadata.username": req.session.passport.user}).then(function(data){
@@ -170,7 +228,6 @@ userSchema.methods.comparePassword = function(password){
 
 var User = mongoose.model('User', userSchema)
 
-
 //-SESSIONS
 passport.serializeUser(function(user, done) { //for session use
   done(null, user);
@@ -181,7 +238,6 @@ passport.deserializeUser(function(user, done) {
 });
 
 function isLoggedIn(req, res, next) { //check session active
-  console.log(req.session.passport ? "session: " + req.session.passport.user : "no session active")
   if (req.isAuthenticated()){
     return next();
   }
@@ -241,6 +297,7 @@ app.get('/auth', isLoggedIn, function(req, res){
 })
 
 app.get('/logout', function(req, res){
+  //clear imports on session logout?
   req.logout()
   res.end()
 })
