@@ -5,14 +5,14 @@
 <button>search</button>
 </form>
 
-<h2>song matches</h2>
+<h2 ng-model="songMessage">{{songMessage}}</h2>
 <div ng-repeat="song in results.songs" ng-click="navTo(song.metadata.username)">
-<h4>{{song.metadata.songName}}</h4>
-{{song.metadata.username}}
+  <h4>{{song.metadata.songName}}</h4>
+  {{song.metadata.username}}
 </div>
 
-<h2>user matches</h2>
+<h2 ng-model="userMessage">{{userMessage}}</h2>
 <div ng-model="results.users" ng-click="navTo(results.users)">
-{{results.users}}
+  <h4>{{results.users}}</h4>
 </div>
 </div>

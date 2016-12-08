@@ -4,23 +4,18 @@
 <h2>upload a song</h2>
   <form action="/upload", method="post", enctype="multipart/form-data">
     <input type="file", enctype="multipart/form-data" name="musicFile"></input>
-    song name:
+    <br />
+    song name
     <input type="text", name="songName"></input>
     <button>upload</button>
   </form>
 
-  <br />
 
   <h2>edit your uploads </h2>
   <div ng-repeat="item in collectionData" ng-click="edit(item.filename, item.songName)">
-    {{item.songName}}
+    <h4>{{item.songName}}</h4>
   </div>
 
-  <form ng-submit="navToProfile()">
-    <button>your public profile</button>
-  </form>
-
-  <form ng-submit="logout()">
-    <button>logout</button>
-  </form>
+  <button ng-click="navToProfile()">your public profile</button>
+  <button ng-click="logout()">logout</button>
 </div>

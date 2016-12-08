@@ -4,5 +4,5 @@
 
 <h2 ng-model="profileId">{{profileId}}'s uploads</h2>
 <div ng-repeat="item in collectionData" ng-click="import(item.filename, item.songName)">
-  {{item.songName}}
+  <h4>{{item.songName}}</h4>
 </div>
