@@ -1,4 +1,7 @@
 <div id='container' align="center">
+<h1>your dashboard</h1>
+
+<h2>upload a song</h2>
   <form action="/upload", method="post", enctype="multipart/form-data">
     <input type="file", enctype="multipart/form-data" name="musicFile"></input>
     song name:
@@ -8,7 +11,7 @@
 
   <br />
 
-  <h2> your uploads </h2>
+  <h2>edit your uploads </h2>
   <div ng-repeat="item in collectionData" ng-click="edit(item.filename, item.songName)">
     {{item.songName}}
   </div>
