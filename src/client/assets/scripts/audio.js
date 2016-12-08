@@ -1,23 +1,24 @@
 //move and transcribe for angularjs
 
 //NEW AUDIO FILE
-var audio = new Audio();
+let audio = new Audio();
 audio.controls = true;
 audio.autoplay = true;
 
-//LOAD -- GLOBAL VARIABLES
-var boost, analyser;
-window.addEventListener("load", initMp3Player, false);
+//LOAD -- GLOBAL variables
+let boost;
+let analyser;
+window.addEventListener('load', initMp3Player, false);
 
 //INIT
-function initMp3Player(){
+function initMp3Player() {
   document.getElementById('audio').appendChild(audio); // append mp3 file
 
-  var context = new AudioContext();
+  let context = new AudioContext();
   analyser = context.createAnalyser(); // --> getByteFrequencyData
 
   // Re-route audio playback into the processing graph of the AudioContext
-  var source = context.createMediaElementSource(audio);
+  let source = context.createMediaElementSource(audio);
   source.connect(analyser);
   analyser.connect(context.destination);
 
@@ -25,10 +26,10 @@ function initMp3Player(){
 }
 
 //ANIMATION
-function animate(){
+function animate() {
   window.requestAnimationFrame(animate);
 
-  var fbc_array = new Uint8Array(analyser.frequencyBinCount); //audio frequency data to array
+  let fbc_array = new Uint8Array(analyser.frequencyBinCount); //audio frequency data to array
   analyser.getByteFrequencyData(fbc_array);
   boost = fbc_array // --> length = 1024
   // --> new AudioContext() --> createAnalyser() --> getByteFrequencyData(frequency array)
