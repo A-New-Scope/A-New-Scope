@@ -1,7 +1,6 @@
 //TO DO
 //LEARN MODULE.EXPORTS SUCKER --THIS FILE IS HUGE
 //FLASH SUCCESS/FAILURE MESSAGES ON EDIT AND LOGIN/SIGNUP
-//PERIODICALLY EMPTY 'IMPORTS' FOLDER
 
 /////////////////////////DEPENDENCIES///////////////////////
 
@@ -13,10 +12,11 @@ var bcrypt = require('bcrypt-nodejs')
 var Grid = require('gridfs-stream')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
-var multer  = require('multer')
+var multer = require('multer')
 var passport = require('passport')
-var LocalStrategy   = require('passport-local').Strategy;
-var flash    = require('connect-flash')
+var LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash') //not used...yet
+var del = require('del')
 var app = express()
 
 //////////////////////////MULTER////////////////////////////
@@ -88,14 +88,14 @@ app.post('/import', function(req, res){
       console.log("file not in db")
       res.end()
     } else {
-      var writestream = fs.createWriteStream('./src/client/imports/'+req.body.filename) //write to uploads folder
+      var writestream = fs.createWriteStream('./src/client/imports/'+req.body.filename) //write to imports folder
       var readstream = gfs.createReadStream({ //read from mongodb
         filename: req.body.filename
         //search by user, search by animation HERE
       })
       readstream.pipe(writestream)
       writestream.on('close', function () {
-        console.log(req.body.filename + ' written to uploads');
+        console.log(req.body.filename + ' written to imports');
         res.end("success")
       })
     }
@@ -138,13 +138,13 @@ app.post('/importPicture', function(req, res){
       console.log("file not in db")
       res.end()
     } else {
-      var writestream = fs.createWriteStream('./src/client/imports/'+req.body.username+'.png') //write to uploads folder
+      var writestream = fs.createWriteStream('./src/client/imports/'+req.body.username+'.png') //write to importss folder
       var readstream = gfs.createReadStream({ //read from mongodb
         filename: req.body.filename
       })
       readstream.pipe(writestream)
       writestream.on('close', function () {
-        console.log(req.body.username + '.png written to uploads');
+        console.log(req.body.username + '.png written to imports');
         res.end("success")
       })
     }
@@ -297,8 +297,14 @@ app.get('/auth', isLoggedIn, function(req, res){
 })
 
 app.get('/logout', function(req, res){
-  //clear imports on session logout?
-  req.logout()
-  res.end()
+    req.logout()
+    res.end()
 })
+
+//-CLEAR IMPORTS PERIODICALLY
+setInterval(function(){
+  del(['./src/client/imports/*']).then(function(data){
+    console.log("imports cleared", data)
+  })
+}, 300000) //clear imports every 5 minutes
 ////////////////////////////////////////////////////////////
