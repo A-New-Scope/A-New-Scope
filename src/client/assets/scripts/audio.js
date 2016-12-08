@@ -2,6 +2,7 @@
 
 //NEW AUDIO FILE
 var audio = new Audio();
+audio.src = "assets/audio/Taylor Swift - Blank Space.mp3"
 audio.controls = true;
 audio.autoplay = true;
 
