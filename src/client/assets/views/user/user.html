@@ -1,23 +1,18 @@
-<!-- <script src="scene.js"></script> -->
 <div id='container' align="center">
+<h1>your dashboard</h1>
+
+<h2>upload a song</h2>
   <form action="/upload", method="post", enctype="multipart/form-data">
     <input type="file", enctype="multipart/form-data" name="musicFile"></input>
     song name:
     <input type="text", name="songName"></input>
     <button>upload</button>
   </form>
-<!--   move me to upload view later
- -->
- <br />
 
+  <br />
 
-<!--   <form ng-submit="import(importQuery)">
-    <input type="text" ng-model="importQuery"></input>
-    <button>search</button>
-  </form> -->
-
-  <h2> your uploads </h2>
-  <div ng-repeat="item in collectionData" ng-click="import(item.filename, item.songName)">
+  <h2>edit your uploads </h2>
+  <div ng-repeat="item in collectionData" ng-click="edit(item.filename, item.songName)">
     {{item.songName}}
   </div>
 

@@ -28,7 +28,7 @@
   "dependencies": {
     "angular": "^1.5.9",
     "angular-ui-router": "^0.3.2",
-    "bcrypt": "^1.0.0",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.3",
@@ -55,7 +55,6 @@
     "eslint-plugin-react": "^6.7.1",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
-    "grunt-cli": "^1.2.0",
     "grunt-concurrent": "^2.3.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-csslint": "^2.0.0",
@@ -63,13 +62,16 @@
     "grunt-contrib-htmlmin": "^2.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-env": "^0.4.4",
     "grunt-eslint": "^19.0.0",
     "grunt-injector": "^1.1.0",
+    "grunt-ng-annotate": "^3.0.0",
     "grunt-nodemon": "^0.4.2",
+    "grunt-shell": "^2.1.0",
     "load-grunt-tasks": "^3.5.2",
     "opn": "^4.0.2"
   },
   "engines": {
-    "node": ">=6.6.0"
+    "node": "6.6.0"
   }
 }

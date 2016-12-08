@@ -1,4 +1,4 @@
-angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModule'])
+angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModule', 'profileModule', 'editModule'])
 
 .config(function($stateProvider, $urlRouterProvider){
 
@@ -24,6 +24,14 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
         sessionActive: checkSession
       }
     })
+    .state('edit', {
+      url:'/edit/:trackId',
+      templateUrl: 'assets/views/edit/edit.html',
+      controller: 'editController',
+      resolve: {
+        sessionActive: checkSession
+      }
+    })
     .state('login', {
       url:"/login",
       templateUrl: 'assets/views/login/login.html',
@@ -38,5 +46,10 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
       url:"/search",
       templateUrl: 'assets/views/search/search.html',
       controller: 'searchController'
+    })
+    .state('profile', {
+      url: '/profile/:profileId',
+      templateUrl: 'assets/views/profile/profile.html',
+      controller: 'profileController'
     })
 })

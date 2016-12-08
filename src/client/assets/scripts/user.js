@@ -3,8 +3,7 @@ angular.module('userModule', [])
 .controller('userController', function($scope, $http, $state){
   $scope.collectionData = []
 
-  //MAKE SEPERATE SEARCH VIEW LATER
-  $scope.import = function(filename, songName){ //INTERNAL METHOD CALLED ON COLLECTION CLICK
+  $scope.import = function(filename, songName){ //replace with edit and remove method, import on profile
     $http({
       method: 'POST',
       url: '/import',
@@ -14,11 +13,13 @@ angular.module('userModule', [])
       } //handle animation later
     }).then(function(res){
       if(res.data){
-        //audio.src = '/uploadTest/21QuestionsFromDB.mp3'
         audio.src = 'imports/' + filename
       }
-
     })
+  }
+
+  $scope.edit = function(filename, songName){
+    $state.go('edit', {trackId: songName})
   }
 
   $scope.logout = function(){ //MOVE TO FACTORY LATER
@@ -46,4 +47,5 @@ angular.module('userModule', [])
   }
 
   $scope.userCollection();
+  //add link to public profile
 });
