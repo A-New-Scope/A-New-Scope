@@ -2,7 +2,7 @@ var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
 var renderer = new THREE.WebGLRenderer({alpha: true});
-renderer.setSize( window.innerWidth / 2, window.innerHeight / 2);
+renderer.setSize( window.innerWidth / 3, window.innerHeight / 3);
 document.body.appendChild( renderer.domElement ); //point this to an angular view
 
 var geometry = new THREE.BoxGeometry( 1, 2, 2 );

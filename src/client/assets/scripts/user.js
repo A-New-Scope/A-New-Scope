@@ -47,4 +47,5 @@ angular.module('userModule', [])
   }
 
   $scope.userCollection();
+  //add link to public profile
 });

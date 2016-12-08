@@ -1,8 +1,8 @@
 //TO DO
 //LEARN MODULE.EXPORTS SUCKER --THIS FILE IS HUGE
-//DB ROUTING TO EDIT/DELETE YOUR TRACKS
 //REDIRECT LINKS THAT SHOW/HIDE BASED ON SESSION (IE. 'GO TO MY PROFILE' ETC) ng-show????
 //SHOW LATEST SONGS ADDED
+//FLASH SUCCESS/FAILURE MESSAGES ON EDIT AND LOGIN/SIGNUP
 
 /////////////////////////DEPENDENCIES///////////////////////
 
@@ -109,26 +109,6 @@ app.get('/userCollection', isLoggedIn, function(req, res){
 })
 
 app.post('/updateSong', isLoggedIn, function(req, res){
-  // fsFile.findOneAndUpdate({
-  //   "metadata.username": req.session.passport.user,
-  //   "metadata.songName": req.body.songName
-  // }, {"metadata.songName": req.body.newName}).then(function(data, err){
-  //   // console.log(data)
-  //   console.log(data)
-  //   // file.metadata.songName = req.body.newName
-  //   // file.save(function(err, data){
-  //   //   if(err){
-  //   //     throw err
-  //   //   }
-  //   //   res.end()
-  //   // })
-  //   res.end()
-  // })
-
-  // fsFile.find().then(function(data){
-  //   console.log(data[0].metadata)
-  // })
-
   gfs.files.update(
     {
       'metadata.songName': req.body.songName,
@@ -138,7 +118,6 @@ app.post('/updateSong', isLoggedIn, function(req, res){
   ).then(function(){
     res.end()
   })
-
 })
 
 app.post('/removeSong', isLoggedIn, function(req, res){

@@ -1,3 +1,9 @@
 h1 {
-  color: red;
+  color: black;
+}
+
+.nav {
+  position: relative;
+  float: right;
+  width: 50%;
 }
