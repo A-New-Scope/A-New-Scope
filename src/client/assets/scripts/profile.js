@@ -1,5 +1,6 @@
 angular.module('profileModule', [])
 .controller('profileController', function($scope, $http, $stateParams){
+  $scope.profileId = $stateParams.profileId
   $scope.displayMsg = "profile for " + $stateParams.profileId
   $scope.collectionData = []
 

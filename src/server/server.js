@@ -1,16 +1,8 @@
 //TO DO
-
-//LEARN EXPORTS SUCKER
-
-//-- DB FS FILES FIND (metadata : session user name)
-//view should render "your songs"
-//player with cool 3js
-//-- single view has db search methods for preferences and for songs by whatever user is being displayed
-
-//SEPERATE VIEW TO EDIT OR REMOVE YOUR TRACKS
-
-//seperate "search all" view that searches by username and songname
-//--redirect to whatever artist page for now
+//LEARN MODULE.EXPORTS SUCKER --THIS FILE IS HUGE
+//REDIRECT LINKS THAT SHOW/HIDE BASED ON SESSION (IE. 'GO TO MY PROFILE' ETC) ng-show????
+//SHOW LATEST SONGS ADDED
+//FLASH SUCCESS/FAILURE MESSAGES ON EDIT AND LOGIN/SIGNUP
 
 /////////////////////////DEPENDENCIES///////////////////////
 
@@ -50,9 +42,9 @@ var fsFile = mongoose.model('fs.file', new mongoose.Schema())
 
 app.use(cookieParser()) // read cookies (needed for auth)
 app.use(session({
-secret: 'secret',
-resave: true,
-saveUninitialized: true
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -89,7 +81,7 @@ app.post('/upload', isLoggedIn, upload, function(req, res){
 app.post('/import', /*isLoggedIn,*/ function(req, res){
   fsFile.find({
     filename: req.body.filename,
-    "metadata.username": req.session.passport ? req.session.passport.user : req.body.username,
+    "metadata.username": req.session.passport ? req.session.passport.user : req.body.username,//fix later
     "metadata.songName": req.body.songName
   }).then(function(data){ //search db
     if(!data[0]){
@@ -98,7 +90,7 @@ app.post('/import', /*isLoggedIn,*/ function(req, res){
     } else {
       var writestream = fs.createWriteStream('./src/client/imports/'+req.body.filename) //write to uploads folder
       var readstream = gfs.createReadStream({ //read from mongodb
-        filename: req.body.filename //(handle multiples eventually by querying by id)
+        filename: req.body.filename
         //search by user, search by animation HERE
       })
       readstream.pipe(writestream)
@@ -112,15 +104,33 @@ app.post('/import', /*isLoggedIn,*/ function(req, res){
 
 app.get('/userCollection', isLoggedIn, function(req, res){
   fsFile.find({"metadata.username": req.session.passport.user}).then(function(data){
-    //console.log(data)
     res.send(data)
   })
-}) //add a way to edit your collection too
-  //add and remove from upload page
+})
+
+app.post('/updateSong', isLoggedIn, function(req, res){
+  gfs.files.update(
+    {
+      'metadata.songName': req.body.songName,
+      'metadata.username': req.session.passport.user
+    },
+    { $set: { 'metadata.songName': req.body.newName } }
+  ).then(function(){
+    res.end()
+  })
+})
+
+app.post('/removeSong', isLoggedIn, function(req, res){
+  fsFile.remove({
+    "metadata.username": req.session.passport.user,
+    "metadata.songName": req.body.songName
+  }).then(function(){
+    res.end()
+  })
+})
 
 app.post('/publicCollection', function(req, res){
   fsFile.find({"metadata.username": req.body.username}).then(function(data){
-    //console.log(data)
     res.send(data)
   })
 })
@@ -172,7 +182,6 @@ function isLoggedIn(req, res, next) { //check session active
   }
   res.send("unauthorized")
 }
-
 
 //-AUTH
 passport.use('login',
