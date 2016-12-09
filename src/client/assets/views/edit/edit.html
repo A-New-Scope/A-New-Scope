@@ -1,12 +1,12 @@
-<h2 ng-model="trackId">editing {{trackId}}</h2>
+<h2 ng-model="edit.trackId">editing {{edit.trackId}}</h2>
 
-<form ng-submit="updateSong(newName)">
-<input ng-model="newName"></input>
+<form ng-submit="edit.updateSong(newName)">
+<input ng-model="newName" />
 <button>update name</button>
 </form>
 
-<button ng-model="trackId" ng-click="deleteSong(trackId)">
-  delete {{trackId}}
+<button ng-model="edit.trackId" ng-click="edit.deleteSong(trackId)">
+  delete {{edit.trackId}}
 </button>
 
 <br />

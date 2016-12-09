@@ -4,7 +4,7 @@
   <div ng-show="!user.profilePicture">
     <h2>upload a profile picture</h2>
     <form action="/uploadPicture" method="post" enctype="multipart/form-data">
-      <input type="file" enctype="multipart/form-data" name="imageFile"></input>
+      <input type="file" enctype="multipart/form-data" name="imageFile" />
       <br />
       <button>upload</button>
     </form>
@@ -19,10 +19,10 @@
 
   <h2>upload a song</h2>
   <form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" enctype="multipart/form-data" name="musicFile"></input>
+    <input type="file" enctype="multipart/form-data" name="musicFile" />
     <br />
     song name
-    <input type="text" name="songName"></input>
+    <input type="text" name="songName" />
     <button>upload</button>
   </form>
 

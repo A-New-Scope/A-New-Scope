@@ -27,7 +27,7 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
     })
     .state('edit', {
       url: '/edit/:trackId',
-      templateUrl: 'assets/views/edit/edit.html',
+      templateUrl: 'assets/views/edit/edit.html', //controllerAs complete on this page
       controller: 'EditController',
       controllerAs: 'edit',
       resolve: {
@@ -54,7 +54,7 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
     })
     .state('profile', {
       url: '/profile/:profileId',
-      templateUrl: 'assets/views/profile/profile.html',
+      templateUrl: 'assets/views/profile/profile.html', //controllerAs complete on this page
       controller: 'ProfileController',
       controllerAs: 'profile'
     });
