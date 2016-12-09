@@ -52,7 +52,7 @@ app.use(flash())
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, '../client')));
 
-let port = process.env.PORT || 3300;
+const port = process.env.PORT || 3300;
 app.listen(port);
 
 console.log("running on ", port)

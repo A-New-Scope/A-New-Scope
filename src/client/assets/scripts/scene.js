@@ -67,8 +67,8 @@ let animateDot = function () {
     y: (Math.random() - .1) * wh * 1.5
   });
   createParticle(0xFFB102, boost[50] / 100 + 0.05, {
-    x: (Math.random() - boost[10]/100) * ww * 2,
-    y: (Math.random() - boost[10]/100) * wh * 2
+    x: (Math.random() - boost[10]/1000) * ww * 2,
+    y: (Math.random() - boost[10]/1000) * wh * 2
   });
 
   //We loop through all our particles
