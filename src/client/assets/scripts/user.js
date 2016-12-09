@@ -1,6 +1,6 @@
-angular.module('userModule', [])
+angular.module('UserModule', [])
 
-.controller('userController', function($scope, $http, $state) {
+.controller('UserController', function($scope, $http, $state) {
   $scope.collectionData = [];
   $scope.profilePicture = null;
 

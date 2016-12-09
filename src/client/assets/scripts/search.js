@@ -1,5 +1,5 @@
-angular.module('searchModule', [])
-.controller('searchController', function($scope, $http, $state) {
+angular.module('SearchModule', [])
+.controller('SearchController', function($scope, $http, $state) {
   $scope.results = {};
   $scope.songMessage = '';
   $scope.userMessage = '';

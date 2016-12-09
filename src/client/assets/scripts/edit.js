@@ -1,5 +1,5 @@
-angular.module('editModule', [])
-.controller('editController', function($scope, $http, $stateParams, $state) {
+angular.module('EditModule', [])
+.controller('EditController', function($scope, $http, $stateParams, $state) {
   $scope.trackId = $stateParams.trackId;
  //edit name
  //delete track

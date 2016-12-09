@@ -1,5 +1,5 @@
-angular.module('profileModule', [])
-.controller('profileController', function($scope, $http, $stateParams) { 
+angular.module('ProfileModule', [])
+.controller('ProfileController', function($scope, $http, $stateParams) { 
   $scope.profilePicture = null;
   $scope.profileId = $stateParams.profileId;
   $scope.displayMsg = "profile for " + $stateParams.profileId;

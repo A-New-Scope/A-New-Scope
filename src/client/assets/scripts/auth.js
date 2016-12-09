@@ -1,6 +1,6 @@
-angular.module('authModule', [])
+angular.module('AuthModule', [])
 
-.controller('authController', function($scope, $http, $state) {
+.controller('AuthController', function($scope, $http, $state) {
   $scope.login = function(user, pass) { //MOVE TO FACTORY LATER
     $http({
       method: 'POST',

@@ -1,4 +1,4 @@
-angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModule', 'profileModule', 'editModule'])
+angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 'ProfileModule', 'EditModule'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -19,7 +19,7 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
     .state('user', {
       url: '/user',
       templateUrl: 'assets/views/user/user.html',
-      controller: 'userController',
+      controller: 'UserController',
       resolve: {
         sessionActive: checkSession
       }
@@ -27,7 +27,7 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
     .state('edit', {
       url: '/edit/:trackId',
       templateUrl: 'assets/views/edit/edit.html',
-      controller: 'editController',
+      controller: 'EditController',
       resolve: {
         sessionActive: checkSession
       }
@@ -35,21 +35,21 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
     .state('login', {
       url: '/login',
       templateUrl: 'assets/views/login/login.html',
-      controller: 'authController'
+      controller: 'AuthController'
     })
     .state('signup', {
       url: '/signup',
       templateUrl: 'assets/views/signup/signup.html',
-      controller: 'authController'
+      controller: 'AuthController'
     })
     .state('search', {
       url: '/search',
       templateUrl: 'assets/views/search/search.html',
-      controller: 'searchController'
+      controller: 'SearchController'
     })
     .state('profile', {
       url: '/profile/:profileId',
       templateUrl: 'assets/views/profile/profile.html',
-      controller: 'profileController'
+      controller: 'ProfileController'
     });
 });
