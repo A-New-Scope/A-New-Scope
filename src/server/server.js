@@ -1,7 +1,5 @@
 //TO DO
 //LEARN MODULE.EXPORTS SUCKER --THIS FILE IS HUGE
-//REDIRECT LINKS THAT SHOW/HIDE BASED ON SESSION (IE. 'GO TO MY PROFILE' ETC) ng-show????
-//SHOW LATEST SONGS ADDED
 //FLASH SUCCESS/FAILURE MESSAGES ON EDIT AND LOGIN/SIGNUP
 
 /////////////////////////DEPENDENCIES///////////////////////
@@ -14,11 +12,13 @@ var bcrypt = require('bcrypt-nodejs')
 var Grid = require('gridfs-stream')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
-var multer  = require('multer')
+var multer = require('multer')
 var passport = require('passport')
-var LocalStrategy   = require('passport-local').Strategy;
-var flash    = require('connect-flash')
+var LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash') //not used...yet
+var del = require('del')
 var app = express()
+var path = require('path');
 
 //////////////////////////MULTER////////////////////////////
 
@@ -50,13 +50,16 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 app.use(bodyParser.json())
-app.use(express.static('src/client'));
-app.listen(3300)
+app.use(express.static(path.join(__dirname, '../client')));
 
-console.log("running on 3300")
+const port = process.env.PORT || 3300;
+app.listen(port);
+
+console.log("running on ", port)
 
 //////////////////////////UPLOAD////////////////////////////
 
+//--UPLOAD SONG
 app.post('/upload', isLoggedIn, upload, function(req, res){
   if(!req.files[0]){
     res.redirect('/#/user')
@@ -78,29 +81,88 @@ app.post('/upload', isLoggedIn, upload, function(req, res){
   }
 })
 
-app.post('/import', /*isLoggedIn,*/ function(req, res){
+app.post('/import', function(req, res){
   fsFile.find({
     filename: req.body.filename,
-    "metadata.username": req.session.passport ? req.session.passport.user : req.body.username,//fix later
+    "metadata.username": req.body.username,
     "metadata.songName": req.body.songName
   }).then(function(data){ //search db
     if(!data[0]){
       console.log("file not in db")
       res.end()
     } else {
-      var writestream = fs.createWriteStream('./src/client/imports/'+req.body.filename) //write to uploads folder
+      var writestream = fs.createWriteStream('./src/client/imports/'+req.body.filename) //write to imports folder
       var readstream = gfs.createReadStream({ //read from mongodb
         filename: req.body.filename
         //search by user, search by animation HERE
       })
       readstream.pipe(writestream)
       writestream.on('close', function () {
-        console.log(req.body.filename + ' written to uploads');
+        console.log(req.body.filename + ' written to imports');
         res.end("success")
       })
     }
   })
 })
+
+
+//-UPLOAD PROFILE PICTURE
+app.post('/uploadPicture', isLoggedIn, upload, function(req, res){
+  console.log(req.files[0])
+  if(!req.files[0]){
+    res.redirect('/#/user')
+  } else{
+    var temp = req.files[0].originalname
+    var writestream = gfs.createWriteStream({
+        //filename to store in mongodb
+        metadata: {
+          username: req.session.passport.user,
+          type: "image"
+        }
+    })
+    fs.createReadStream('./uploadTemp/' + temp).pipe(writestream)
+    writestream.on('close', function (file) {
+      console.log(file.filename + ' Written To DB')
+      fs.unlink('./uploadTemp/' + temp)
+      res.redirect('/#/user')
+    })
+  }
+})
+
+app.post('/importPicture', function(req, res){
+  if(req.body === null){
+    req.body.username = req.session.passport.user
+  }
+  fsFile.find({
+    "metadata.username": req.body.username,
+    "metadata.type": "image"
+  }).then(function(data){ //search db
+    if(!data[0]){
+      console.log("file not in db")
+      res.end()
+    } else {
+      var writestream = fs.createWriteStream('./src/client/imports/'+req.body.username+'.png') //write to importss folder
+      var readstream = gfs.createReadStream({ //read from mongodb
+        filename: req.body.filename
+      })
+      readstream.pipe(writestream)
+      writestream.on('close', function () {
+        console.log(req.body.username + '.png written to imports');
+        res.end("success")
+      })
+    }
+  })
+})
+
+app.get('/removePicture', isLoggedIn, function(req, res){
+  fsFile.remove({
+    "metadata.username": req.session.passport.user,
+    "metadata.type": "image"
+  }).then(function(){
+    res.end()
+  })
+})
+
 
 app.get('/userCollection', isLoggedIn, function(req, res){
   fsFile.find({"metadata.username": req.session.passport.user}).then(function(data){
@@ -147,6 +209,10 @@ app.post('/search', function(req, res){
   })
 })
 
+app.get('/getCurrentSession', isLoggedIn, function(req, res){
+  res.send(req.session.passport.user)
+})
+
 ////////////////////////PASSPORT////////////////////////////
 
 //-USER SCHEMA
@@ -165,7 +231,6 @@ userSchema.methods.comparePassword = function(password){
 
 var User = mongoose.model('User', userSchema)
 
-
 //-SESSIONS
 passport.serializeUser(function(user, done) { //for session use
   done(null, user);
@@ -176,7 +241,6 @@ passport.deserializeUser(function(user, done) {
 });
 
 function isLoggedIn(req, res, next) { //check session active
-  console.log(req.session.passport ? "session: " + req.session.passport.user : "no session active")
   if (req.isAuthenticated()){
     return next();
   }
@@ -236,7 +300,14 @@ app.get('/auth', isLoggedIn, function(req, res){
 })
 
 app.get('/logout', function(req, res){
-  req.logout()
-  res.end()
+    req.logout()
+    res.end()
 })
+
+//-CLEAR IMPORTS PERIODICALLY
+setInterval(function(){
+  del(['./src/client/imports/*']).then(function(data){
+    console.log("imports cleared", data)
+  })
+}, 300000) //clear imports every 5 minutes
 ////////////////////////////////////////////////////////////
