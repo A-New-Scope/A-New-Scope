@@ -20,6 +20,7 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
       url: '/user',
       templateUrl: 'assets/views/user/user.html',
       controller: 'UserController',
+      controllerAs: 'user',
       resolve: {
         sessionActive: checkSession
       }
@@ -28,6 +29,7 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
       url: '/edit/:trackId',
       templateUrl: 'assets/views/edit/edit.html',
       controller: 'EditController',
+      controllerAs: 'edit',
       resolve: {
         sessionActive: checkSession
       }
@@ -35,21 +37,25 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
     .state('login', {
       url: '/login',
       templateUrl: 'assets/views/login/login.html',
-      controller: 'AuthController'
+      controller: 'AuthController',
+      controllerAs: 'auth'
     })
     .state('signup', {
       url: '/signup',
       templateUrl: 'assets/views/signup/signup.html',
-      controller: 'AuthController'
+      controller: 'AuthController',
+      controllerAs: 'auth'
     })
     .state('search', {
       url: '/search',
       templateUrl: 'assets/views/search/search.html',
-      controller: 'SearchController'
+      controller: 'SearchController',
+      controllerAs: 'search'
     })
     .state('profile', {
       url: '/profile/:profileId',
       templateUrl: 'assets/views/profile/profile.html',
-      controller: 'ProfileController'
+      controller: 'ProfileController',
+      controllerAs: 'profile'
     });
 });
