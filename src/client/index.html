@@ -19,9 +19,9 @@
   <!-- injector:js -->
   <script src="assets/scripts/app.js"></script>
   <script src="assets/scripts/audio.js"></script>
-  <script src="assets/scripts/orbit.js"></script>
   <script src="assets/scripts/auth.js"></script>
   <script src="assets/scripts/edit.js"></script>
+  <script src="assets/scripts/orbit.js"></script>
   <script src="assets/scripts/profile.js"></script>
   <script src="assets/scripts/search.js"></script>
   <script src="assets/scripts/user.js"></script>
@@ -30,15 +30,24 @@
 </head>
 <body>
 
+
+<div class="nav">
   <h1>more than a demo</h1>
   <h1><a ui-sref="search">search</a>
   <a ui-sref="user">dashboard</a>
-  </h1>
-
-  <div class="nav" ui-view></div>
-  <canvas id="scene"></canvas>
-  <script src="assets/scripts/scene.js"></script>
   <div id="audio"></div>
+  </h1>
+  <div ui-view></div>
+</div>
+
+<canvas id="scene"></canvas>
+<script src="assets/scripts/scene.js"></script>
+
+
+
+
+
+
 
 
 </body>

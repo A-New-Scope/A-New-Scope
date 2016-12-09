@@ -122,7 +122,7 @@ app.post('/uploadPicture', isLoggedIn, upload, function(req, res){
     })
     fs.createReadStream('./uploadTemp/' + temp).pipe(writestream)
     writestream.on('close', function (file) {
-      console.log(file.filename + ' Written To DB')
+      console.log(file + ' Written To DB')
       fs.unlink('./uploadTemp/' + temp)
       res.redirect('/#/user')
     })
@@ -130,9 +130,10 @@ app.post('/uploadPicture', isLoggedIn, upload, function(req, res){
 })
 
 app.post('/importPicture', function(req, res){
-  if(req.body === null){
-    req.body.username = req.session.passport.user
-  }
+  // if(req.body === null){
+  //   req.body.username = req.session.passport.user
+  // }
+  console.log("username", req.body.username)
   fsFile.find({
     "metadata.username": req.body.username,
     "metadata.type": "image"
