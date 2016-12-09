@@ -1,36 +1,36 @@
 <div id='container' align="center">
   <h1>your dashboard</h1>
 
-  <div ng-show="!profilePicture">
+  <div ng-show="!user.profilePicture">
     <h2>upload a profile picture</h2>
-    <form action="/uploadPicture", method="post", enctype="multipart/form-data">
-      <input type="file", enctype="multipart/form-data" name="imageFile"></input>
+    <form action="/uploadPicture" method="post" enctype="multipart/form-data">
+      <input type="file" enctype="multipart/form-data" name="imageFile"></input>
       <br />
       <button>upload</button>
     </form>
   </div>
 
-  <div ng-show="profilePicture">
+  <div ng-show="user.profilePicture">
     <h2>your profile picture</h2>
-    <img ng-src="{{profilePicture}}" height="100" width="100" />
+    <img ng-src="{{user.profilePicture}}" height="100" width="100" />
     <br />
-    <button ng-click="removePicture()">delete profile picture</button>
+    <button ng-click="user.removePicture()">delete profile picture</button>
   </div>
 
   <h2>upload a song</h2>
-  <form action="/upload", method="post", enctype="multipart/form-data">
-    <input type="file", enctype="multipart/form-data" name="musicFile"></input>
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" enctype="multipart/form-data" name="musicFile"></input>
     <br />
     song name
-    <input type="text", name="songName"></input>
+    <input type="text" name="songName"></input>
     <button>upload</button>
   </form>
 
   <h2>edit your uploads </h2>
-  <div ng-repeat="item in collectionData" ng-click="edit(item.filename, item.songName)">
+  <div ng-repeat="item in user.collectionData" ng-click="user.edit(item.filename, item.songName)">
     <h4>{{item.songName}}</h4>
   </div>
 
-  <button ng-click="navToProfile()">your public profile</button>
-  <button ng-click="logout()">logout</button>
+  <button ng-click="user.navToProfile()">your public profile</button>
+  <button ng-click="user.logout()">logout</button>
 </div>

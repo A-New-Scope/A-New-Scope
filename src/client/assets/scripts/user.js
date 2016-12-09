@@ -41,15 +41,6 @@ angular.module('UserModule', [])
     });
   };
 
-  vm.getCurrentSession = function() {
-    $http({
-      method: 'GET',
-      url: '/getCurrentSession'
-    }).then(function(res) {
-      vm.importPicture(res.data);
-    });
-  };
-
   vm.importPicture = function(username) {
     $http({
       method: 'POST',
@@ -61,6 +52,15 @@ angular.module('UserModule', [])
       if (data.data) {
         vm.profilePicture = 'imports/' + username + '.png';
       }
+    });
+  };
+  
+  vm.getCurrentSession = function() {
+    $http({
+      method: 'GET',
+      url: '/getCurrentSession'
+    }).then(function(res) {
+      vm.importPicture(res.data);
     });
   };
 

@@ -18,7 +18,7 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
   $stateProvider
     .state('user', {
       url: '/user',
-      templateUrl: 'assets/views/user/user.html',
+      templateUrl: 'assets/views/user/user.html', //controllerAs complete on this page
       controller: 'UserController',
       controllerAs: 'user',
       resolve: {
@@ -36,13 +36,13 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
     })
     .state('login', {
       url: '/login',
-      templateUrl: 'assets/views/login/login.html',
+      templateUrl: 'assets/views/login/login.html', //controllerAs complete on this page
       controller: 'AuthController',
       controllerAs: 'auth'
     })
     .state('signup', {
       url: '/signup',
-      templateUrl: 'assets/views/signup/signup.html',
+      templateUrl: 'assets/views/signup/signup.html', //controllerAs complete on this page
       controller: 'AuthController',
       controllerAs: 'auth'
     })
