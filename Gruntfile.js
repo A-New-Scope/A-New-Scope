@@ -88,10 +88,13 @@ module.exports = function(grunt) {
     env: {
       //TO DO
       dev: {
+        NODE_ENV: 'dev',
+        PORT: 3300
 
       },
       production: {
-
+        NODE_ENV: 'production',
+        PORT: 3000
       }
     },
 
@@ -104,12 +107,15 @@ module.exports = function(grunt) {
         },
         files: {
           'src/client/index.html': [
-            'src/client/assets/scripts/app.js',
+            'src/client/assets/scripts/*.js',
+            '!src/client/assets/scripts/scene.js',
             'src/client/assets/styles/*.css',
+            'src/client/assets/views/**/*.js',
+            'node_modules/livereload-js/dist/livereload.js'
           ]
         }
       },
-      livereload: {
+/*      livereload: {
         options: {
           prefix: 'http://localhost:35729',
           ignorePath: 'node_modules/livereload-js/dist/',
@@ -120,7 +126,7 @@ module.exports = function(grunt) {
             'node_modules/livereload-js/dist/livereload.js'
           ]
         }
-      },
+      },*/
       dist: {
         files: {
           'src/client/index.html': [
@@ -225,9 +231,9 @@ module.exports = function(grunt) {
 
   // TODO: register tasks
   grunt.registerTask('default', ['dev']);
-  grunt.registerTask('dev', ['concurrent:dev']);
+  grunt.registerTask('dev', ['env:dev', 'concurrent:dev']);
   grunt.registerTask('test', ['eslint', 'csslint']);
-  grunt.registerTask('build', ['cssmin', 'babel', 'uglify', 'concat']);
+  grunt.registerTask('build', ['env:production', 'cssmin', 'babel', 'uglify', 'concat']);
   grunt.registerTask('upload', []);
   grunt.registerTask('deploy', ['test', 'build', 'upload']);
 

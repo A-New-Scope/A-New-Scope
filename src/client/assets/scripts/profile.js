@@ -1,11 +1,11 @@
 angular.module('profileModule', [])
-.controller('profileController', function($scope, $http, $stateParams){
-  $scope.profilePicture = null
-  $scope.profileId = $stateParams.profileId
-  $scope.displayMsg = "profile for " + $stateParams.profileId
-  $scope.collectionData = []
+.controller('profileController', function($scope, $http, $stateParams) { 
+  $scope.profilePicture = null;
+  $scope.profileId = $stateParams.profileId;
+  $scope.displayMsg = "profile for " + $stateParams.profileId;
+  $scope.collectionData = [];
 
-  $scope.import = function(filename, songName){
+  $scope.import = function(filename, songName) {
     $http({
       method: 'POST',
       url: '/import',
@@ -14,46 +14,46 @@ angular.module('profileModule', [])
         filename: filename,
         songName: songName
       } //handle animation later
-    }).then(function(res){
-      if(res.data){
-        audio.src = 'imports/' + filename
+    }).then(function(res) {
+      if (res.data) {
+        audio.src = 'imports/' + filename;
       }
-    })
-  }
+    });
+  };
 
-  $scope.publicCollection = function(){
+  $scope.publicCollection = function() {
     $http({
       method: 'POST',
       url: '/publicCollection',
       data: {username: $stateParams.profileId}
-    }).then(function(data){
-      if(!data.data.length){
-        $scope.displayMsg = "user not found!"
+    }).then(function(data) {
+      if (!data.data.length) {
+        $scope.displayMsg = 'user not found!';
       }
-      data.data.forEach(function(item){
+      data.data.forEach(function(item) {
         $scope.collectionData.push({
           filename: item.filename,
           username: item.metadata.username,
           songName: item.metadata.songName
-        })
-      })
-    })
-  }
+        });
+      });
+    });
+  };
 
-  $scope.importPicture = function(){
+  $scope.importPicture = function() {
     $http({
       method: 'POST',
       url: '/importPicture',
       data: {
         username: $stateParams.profileId
       }
-    }).then(function(res){
-      if(res.data){
-        $scope.profilePicture = 'imports/' + $stateParams.profileId + '.png'
+    }).then(function(res) {
+      if (res.data) {
+        $scope.profilePicture = 'imports/' + $stateParams.profileId + '.png';
       }
-    })
-  }
+    });
+  };
 
-  $scope.importPicture()
-  $scope.publicCollection()
-})
+  $scope.importPicture();
+  $scope.publicCollection();
+});

@@ -1,79 +1,79 @@
 angular.module('userModule', [])
 
-.controller('userController', function($scope, $http, $state){
-  $scope.collectionData = []
-  $scope.profilePicture = null
+.controller('userController', function($scope, $http, $state) {
+  $scope.collectionData = [];
+  $scope.profilePicture = null;
 
-  $scope.edit = function(filename, songName){
-    $state.go('edit', {trackId: songName})
-  }
+  $scope.edit = function(filename, songName) {
+    $state.go('edit', {trackId: songName});
+  };
 
-  $scope.logout = function(){ //MOVE TO FACTORY LATER
+  $scope.logout = function() { //MOVE TO FACTORY LATER
     $http({
       method: 'GET',
       url: '/logout'
-    })
-    $state.go('login')
-  }
+    });
+    $state.go('login');
+  };
 
-  $scope.userCollection = function(){
+  $scope.userCollection = function() {
     $http({
       method: 'GET',
       url: '/userCollection'
-    }).then(function(data){
-      data.data.forEach(function(item){
+    }).then(function(data) {
+      data.data.forEach(function(item) {
         $scope.collectionData.push({
           filename: item.filename,
           username: item.metadata.username,
           songName: item.metadata.songName
-        })
-      })
-    })
-  }
+        });
+      });
+    });
+  };
 
-  $scope.navToProfile = function(){
+  $scope.navToProfile = function() {
     $http({
       method: 'GET',
       url: '/getCurrentSession'
-    }).then(function(data){
-      $state.go('profile', {profileId: data.data})
-    })
-  }
+    }).then(function(data) {
+      $state.go('profile', {profileId: data.data});
+    });
+  };
 
-  $scope.getCurrentSession = function(){
+  $scope.getCurrentSession = function() {
     $http({
       method: 'GET',
       url: '/getCurrentSession'
-    }).then(function(res){
-      $scope.importPicture(res.data)
-    })
-  }
+    }).then(function(res) {
+      $scope.importPicture(res.data);
+    });
+  };
 
-  $scope.importPicture = function(username){
+  $scope.importPicture = function(username) {
     $http({
       method: 'POST',
       url: '/importPicture',
       data: {
         username: username
       }
-    }).then(function(data){
-      if(data.data){
-        $scope.profilePicture = 'imports/' + username + '.png'
+    }).then(function(data) {
+      if (data.data) {
+        $scope.profilePicture = 'imports/' + username + '.png';
       }
-    })
-  }
+    });
+  };
 
-  $scope.removePicture = function(){
+  $scope.removePicture = function() {
     $http({
       method: 'GET',
       url: '/removePicture'
-    }).then(function(){
-      $scope.profilePicture = null
-    })
-  }
+    }).then(function() {
+      $scope.profilePicture = null;
+    });
+  };
 
 
   $scope.getCurrentSession();
-  $scope.userCollection()
+  $scope.userCollection();
   // $scope.importPicture($scope.currentSession)
 });

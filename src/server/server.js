@@ -18,6 +18,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash') //not used...yet
 var del = require('del')
 var app = express()
+var path = require('path');
 
 //////////////////////////MULTER////////////////////////////
 
@@ -49,10 +50,12 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 app.use(bodyParser.json())
-app.use(express.static('src/client'));
-app.listen(3300)
+app.use(express.static(path.join(__dirname, '../client')));
 
-console.log("running on 3300")
+let port = process.env.PORT || 3300;
+app.listen(port);
+
+console.log("running on ", port)
 
 //////////////////////////UPLOAD////////////////////////////
 
