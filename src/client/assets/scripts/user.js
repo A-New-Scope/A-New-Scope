@@ -1,14 +1,15 @@
 angular.module('UserModule', [])
 
-.controller('UserController', function($scope, $http, $state) {
-  $scope.collectionData = [];
-  $scope.profilePicture = null;
+.controller('UserController', function($http, $state) {
+  let vm = this;
+  vm.collectionData = [];
+  vm.profilePicture = null;
 
-  $scope.edit = function(filename, songName) {
+  vm.edit = function(filename, songName) {
     $state.go('edit', {trackId: songName});
   };
 
-  $scope.logout = function() { //MOVE TO FACTORY LATER
+  vm.logout = function() { //MOVE TO FACTORY LATER
     $http({
       method: 'GET',
       url: '/logout'
@@ -16,13 +17,13 @@ angular.module('UserModule', [])
     $state.go('login');
   };
 
-  $scope.userCollection = function() {
+  vm.userCollection = function() {
     $http({
       method: 'GET',
       url: '/userCollection'
     }).then(function(data) {
       data.data.forEach(function(item) {
-        $scope.collectionData.push({
+        vm.collectionData.push({
           filename: item.filename,
           username: item.metadata.username,
           songName: item.metadata.songName
@@ -31,7 +32,7 @@ angular.module('UserModule', [])
     });
   };
 
-  $scope.navToProfile = function() {
+  vm.navToProfile = function() {
     $http({
       method: 'GET',
       url: '/getCurrentSession'
@@ -40,16 +41,16 @@ angular.module('UserModule', [])
     });
   };
 
-  $scope.getCurrentSession = function() {
+  vm.getCurrentSession = function() {
     $http({
       method: 'GET',
       url: '/getCurrentSession'
     }).then(function(res) {
-      $scope.importPicture(res.data);
+      vm.importPicture(res.data);
     });
   };
 
-  $scope.importPicture = function(username) {
+  vm.importPicture = function(username) {
     $http({
       method: 'POST',
       url: '/importPicture',
@@ -58,22 +59,22 @@ angular.module('UserModule', [])
       }
     }).then(function(data) {
       if (data.data) {
-        $scope.profilePicture = 'imports/' + username + '.png';
+        vm.profilePicture = 'imports/' + username + '.png';
       }
     });
   };
 
-  $scope.removePicture = function() {
+  vm.removePicture = function() {
     $http({
       method: 'GET',
       url: '/removePicture'
     }).then(function() {
-      $scope.profilePicture = null;
+      vm.profilePicture = null;
     });
   };
 
 
-  $scope.getCurrentSession();
-  $scope.userCollection();
-  // $scope.importPicture($scope.currentSession)
+  vm.getCurrentSession();
+  vm.userCollection();
+  // vm.importPicture(vm.currentSession)
 });

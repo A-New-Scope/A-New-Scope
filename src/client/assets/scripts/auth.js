@@ -1,7 +1,8 @@
 angular.module('AuthModule', [])
 
-.controller('AuthController', function($scope, $http, $state) {
-  $scope.login = function(user, pass) { //MOVE TO FACTORY LATER
+.controller('AuthController', function($http, $state) {
+  let vm = this;
+  vm.login = function(user, pass) { //MOVE TO FACTORY LATER
     $http({
       method: 'POST',
       url: '/login',
@@ -14,11 +15,11 @@ angular.module('AuthModule', [])
         $state.go('user');
       }
     });
-    $scope.user = null;
-    $scope.pass = null;
+    vm.user = null;
+    vm.pass = null;
   };
 
-  $scope.signup = function(user, pass) {
+  vm.signup = function(user, pass) {
     $http({
       method: 'POST',
       url: '/signup',
@@ -31,7 +32,7 @@ angular.module('AuthModule', [])
         $state.go('login');
       }
     });
-    $scope.user = null;
-    $scope.pass = null;
+    vm.user = null;
+    vm.pass = null;
   };
 });

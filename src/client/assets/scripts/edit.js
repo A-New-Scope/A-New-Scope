@@ -1,24 +1,25 @@
 angular.module('EditModule', [])
-.controller('EditController', function($scope, $http, $stateParams, $state) {
-  $scope.trackId = $stateParams.trackId;
+.controller('EditController', function($http, $stateParams, $state) {
+  let vm = this;
+  vm.trackId = $stateParams.trackId;
  //edit name
  //delete track
-  $scope.deleteSong = function() {
+  vm.deleteSong = function() {
     $http({
       method: 'POST',
       url: '/removeSong',
-      data: {songName: $scope.trackId}
+      data: {songName: vm.trackId}
     }).then(function() {
       $state.go('user');
     });
   };
 
-  $scope.updateSong = function(newName) {
+  vm.updateSong = function(newName) {
     $http({
       method: 'POST',
       url: '/updateSong',
       data: {
-        songName: $scope.trackId,
+        songName: vm.trackId,
         newName: newName
       }
     }).then(function() {

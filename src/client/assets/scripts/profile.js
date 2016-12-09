@@ -1,11 +1,12 @@
 angular.module('ProfileModule', [])
-.controller('ProfileController', function($scope, $http, $stateParams) { 
-  $scope.profilePicture = null;
-  $scope.profileId = $stateParams.profileId;
-  $scope.displayMsg = "profile for " + $stateParams.profileId;
-  $scope.collectionData = [];
+.controller('ProfileController', function($http, $stateParams) { 
+  let vm = this;
+  vm.profilePicture = null;
+  vm.profileId = $stateParams.profileId;
+  vm.displayMsg = 'profile for ' + $stateParams.profileId;
+  vm.collectionData = [];
 
-  $scope.import = function(filename, songName) {
+  vm.import = function(filename, songName) {
     $http({
       method: 'POST',
       url: '/import',
@@ -21,17 +22,17 @@ angular.module('ProfileModule', [])
     });
   };
 
-  $scope.publicCollection = function() {
+  vm.publicCollection = function() {
     $http({
       method: 'POST',
       url: '/publicCollection',
       data: {username: $stateParams.profileId}
     }).then(function(data) {
       if (!data.data.length) {
-        $scope.displayMsg = 'user not found!';
+        vm.displayMsg = 'user not found!';
       }
       data.data.forEach(function(item) {
-        $scope.collectionData.push({
+        vm.collectionData.push({
           filename: item.filename,
           username: item.metadata.username,
           songName: item.metadata.songName
@@ -40,7 +41,7 @@ angular.module('ProfileModule', [])
     });
   };
 
-  $scope.importPicture = function() {
+  vm.importPicture = function() {
     $http({
       method: 'POST',
       url: '/importPicture',
@@ -49,11 +50,11 @@ angular.module('ProfileModule', [])
       }
     }).then(function(res) {
       if (res.data) {
-        $scope.profilePicture = 'imports/' + $stateParams.profileId + '.png';
+        vm.profilePicture = 'imports/' + $stateParams.profileId + '.png';
       }
     });
   };
 
-  $scope.importPicture();
-  $scope.publicCollection();
+  vm.importPicture();
+  vm.publicCollection();
 });
