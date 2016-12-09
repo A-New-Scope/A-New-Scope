@@ -1,19 +1,19 @@
 angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModule', 'profileModule', 'editModule'])
 
-.config(function($stateProvider, $urlRouterProvider){
+.config(function($stateProvider, $urlRouterProvider) {
 
-  function checkSession($state, $http){
+  let checkSession = function ($state, $http) {
     $http({
       method: 'GET',
       url: '/auth'
-    }).then(function(res){
-      if(res.data.length > 0){
-        $state.go('login')
+    }).then(function(res) {
+      if (res.data.length > 0) {
+        $state.go('login');
       }
-    })
-  }
+    });
+  };
 
-  $urlRouterProvider.otherwise('/user')
+  $urlRouterProvider.otherwise('/user');
 
   $stateProvider
     .state('user', {
@@ -25,7 +25,7 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
       }
     })
     .state('edit', {
-      url:'/edit/:trackId',
+      url: '/edit/:trackId',
       templateUrl: 'assets/views/edit/edit.html',
       controller: 'editController',
       resolve: {
@@ -33,17 +33,17 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
       }
     })
     .state('login', {
-      url:"/login",
+      url: '/login',
       templateUrl: 'assets/views/login/login.html',
       controller: 'authController'
     })
     .state('signup', {
-      url:"/signup",
+      url: '/signup',
       templateUrl: 'assets/views/signup/signup.html',
       controller: 'authController'
     })
     .state('search', {
-      url:"/search",
+      url: '/search',
       templateUrl: 'assets/views/search/search.html',
       controller: 'searchController'
     })
@@ -51,5 +51,5 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
       url: '/profile/:profileId',
       templateUrl: 'assets/views/profile/profile.html',
       controller: 'profileController'
-    })
-})
+    });
+});
