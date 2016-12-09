@@ -6,6 +6,7 @@ let light = new THREE.DirectionalLight(0xffffff, 1);
 let particles = new THREE.Object3D();
 let renderer = new THREE.WebGLRenderer({canvas: document.getElementById('scene')});
 
+
 //Init let with mouse position
 let mouse = {x: 0, y: 0};
 let mouseMove = function (e) {
@@ -16,8 +17,10 @@ let mouseMove = function (e) {
   mouse.y = (wh / 2) - e.clientY;
 };
 
+
 let createParticle = function(color, speed, direct) {
   //Create a geometry used for the particles which contains nothing for now
+
   let geometry = new THREE.Geometry();
   //Create a vector which equal to the mouse position
   let vertices = new THREE.Vector3(
@@ -39,6 +42,7 @@ let createParticle = function(color, speed, direct) {
   let particle = new THREE.Points(geometry, material);
   //We create a random speed for each particle for aesthetics
   particle.speed = speed;
+
   //We set a random position for each particle
   particle.direction = direct;
 
@@ -54,26 +58,27 @@ let animateDot = function () {
     x: (Math.random() - .5) * ww * 2,
     y: (Math.random() - .5) * wh * 2
   });
-  createParticle(0x00ff00, Math.random() / 100 + 0.002, {
-    x: (Math.random() - (boost[10] / 100)) * ww * 7,
-    y: (Math.random() - (boost[10] / 100)) * wh * 7
+  createParticle(0xffffff, Math.random() / 100 + 0.002, {
+    x: (Math.random() - .3) * ww * 2,
+    y: (Math.random() - .3) * wh * 2
   });
-  createParticle(0x8b02fc, Math.random() / 100 + 0.002, {
-    x: (Math.random() - (boost[1000] / 500)) * ww * 9,
-    y: (Math.random() - (boost[1000] / 500)) * wh * 9
+  createParticle(0X004008, Math.random() / 100 + 0.002, {
+    x: (Math.random() - .1) * ww * 1.5,
+    y: (Math.random() - .1) * wh * 1.5
   });
-  createParticle(0xf8fc05, boost[50] / 100 + 0.05, {
-    x: (Math.random() - .5) * ww * 5,
-    y: (Math.random() - .5) * wh * 5
+  createParticle(0xFFB102, boost[50] / 100 + 0.05, {
+    x: (Math.random() - boost[10]/1000) * ww * 2,
+    y: (Math.random() - boost[10]/1000) * wh * 2
   });
 
   //We loop through all our particles
   for (let i = 0, j = particles.children.length; i < j; i++) {
   //Get the next particle
     let particle = particles.children[i];
-    particle.scale.x = boost[100] / 1000;
-    particle.scale.y = boost[10] / 1000;
-  //We move our particle closer to its destination
+
+    particle.scale.x = boost[100] / 1000 + .05;
+    particle.scale.y = boost[10] / 1000 + .05;
+	//We move our particle closer to its destination
     particle.geometry.vertices[0].x += (particle.direction.x - particle.geometry.vertices[0].x) * particle.speed;
     particle.geometry.vertices[0].y += (particle.direction.y - particle.geometry.vertices[0].y) * particle.speed;
   //We reduce the opacity of the particle
@@ -95,31 +100,34 @@ let animateDot = function () {
 };
 
 let init = function() {
-  /* WEBGL RENDERER */
+  camera.lookAt(new THREE.Vector3());
+  controls = new OrbitControls(camera, renderer.domElement);
+
+/* WEBGL RENDERER */
   renderer.setSize(ww, wh);
 
-  /* SCENE */
+/* SCENE */
 
-  /* CAMERA */
+/* CAMERA */
   camera.position.set( 0, 0, 500);
   camera.lookAt(scene.position);
   scene.add(camera);
 
 
-  /* LIGHT */
+/* LIGHT */
   light.position.set( 0, 250, 700 );
   scene.add(light);
 
-  //particles will be the 3D object containing all the particles
+//particles will be the 3D object containing all the particles
   scene.add(particles);
 
-  //Add events listeners on the page
+//Add events listeners on the page
   document.addEventListener('mousemove', mouseMove);
   document.addEventListener('touchemove', mouseMove);
 
   renderer.render(scene, camera);
 
-  //Init request animation frame
+//Init request animation frame
   animateDot();
 };
 
