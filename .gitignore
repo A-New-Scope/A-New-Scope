@@ -85,6 +85,8 @@ Thumbs.db
 src/client/assets/scripts/babelified
 src/client/assets/scripts/minified
 src/client/assets/styles/minified
+src/newcontent/index.html
+src/newcontent/server.js
 .rebooted
 
 # API Keys
