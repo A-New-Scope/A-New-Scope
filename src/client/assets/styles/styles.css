@@ -1,6 +1,26 @@
-h1 {
+/*h1 {
   color: black;
+}*/
+
+canvas {
+  position: absolute;
+  z-index: 1
 }
+
+body {
+  background-color: black;
+  color: grey;
+}
+
+a {
+  color: inherit;
+  text-decoration: none
+}
+
+img {
+  box-shadow: 0 0 10px 10px grey;
+}
+
 
 .nav {
   position: relative;
@@ -9,7 +29,3 @@ h1 {
   z-index: 2
 }
 
-canvas {
-  position: absolute;
-  z-index: 1
-}

@@ -54,19 +54,19 @@ let animateDot = function () {
   requestAnimationFrame(animateDot);
 
   //Create a new particle
-  createParticle(00000000, Math.random() / 10 + 0.002, {
+  createParticle(0xff0000, Math.random() / 10 + 0.002, {
     x: (Math.random() - .5) * ww * 2,
     y: (Math.random() - .5) * wh * 2
   });
-  createParticle(00000000, Math.random() / 10 + 0.002, {
+  createParticle(0x0000FF, Math.random() / 10 + 0.002, {
     x: (Math.random() - .3) * ww * 2,
     y: (Math.random() - .3) * wh * 2
   });
-  createParticle(00000000, Math.random() / 10 + 0.002, {
+  createParticle(0x00FF00, Math.random() / 10 + 0.002, {
     x: (Math.random() - .1) * ww * 1.5,
     y: (Math.random() - .1) * wh * 1.5
   });
-  createParticle(00000000, boost[50] / 100 + 0.05, {
+  createParticle(0x00FF00, boost[50] / 100 + 0.05, {
     x: (Math.random() - boost[10]/1000) * ww * 2,
     y: (Math.random() - boost[10]/1000) * wh * 2
   });
