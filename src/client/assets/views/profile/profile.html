@@ -1,10 +1,10 @@
-<img ng-src="{{profilePicture}}" height="100" width="100" />
+<img ng-src="{{profile.profilePicture}}" height="100" width="100" />
 
-<h1 ng-model="displayMsg">
-  {{displayMsg}}
+<h1 ng-model="profile.displayMsg">
+  {{profile.displayMsg}}
 </h1>
 
-<h2 ng-model="profileId">{{profileId}}'s uploads</h2>
-<div ng-repeat="item in collectionData" ng-click="import(item.filename, item.songName)">
+<h2 ng-model="profile.profileId">{{profile.profileId}}'s uploads</h2>
+<div ng-repeat="item in profile.collectionData" ng-click="profile.import(item.filename, item.songName)">
   <h4>{{item.songName}}</h4>
 </div>

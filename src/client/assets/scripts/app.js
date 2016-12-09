@@ -1,4 +1,4 @@
-angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModule', 'profileModule', 'editModule'])
+angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 'ProfileModule', 'EditModule'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -18,38 +18,44 @@ angular.module('demoApp', ['ui.router', 'userModule', 'authModule', 'searchModul
   $stateProvider
     .state('user', {
       url: '/user',
-      templateUrl: 'assets/views/user/user.html',
-      controller: 'userController',
+      templateUrl: 'assets/views/user/user.html', //controllerAs complete on this page
+      controller: 'UserController',
+      controllerAs: 'user',
       resolve: {
         sessionActive: checkSession
       }
     })
     .state('edit', {
       url: '/edit/:trackId',
-      templateUrl: 'assets/views/edit/edit.html',
-      controller: 'editController',
+      templateUrl: 'assets/views/edit/edit.html', //controllerAs complete on this page
+      controller: 'EditController',
+      controllerAs: 'edit',
       resolve: {
         sessionActive: checkSession
       }
     })
     .state('login', {
       url: '/login',
-      templateUrl: 'assets/views/login/login.html',
-      controller: 'authController'
+      templateUrl: 'assets/views/login/login.html', //controllerAs complete on this page
+      controller: 'AuthController',
+      controllerAs: 'auth'
     })
     .state('signup', {
       url: '/signup',
-      templateUrl: 'assets/views/signup/signup.html',
-      controller: 'authController'
+      templateUrl: 'assets/views/signup/signup.html', //controllerAs complete on this page
+      controller: 'AuthController',
+      controllerAs: 'auth'
     })
     .state('search', {
       url: '/search',
       templateUrl: 'assets/views/search/search.html',
-      controller: 'searchController'
+      controller: 'SearchController',
+      controllerAs: 'search'
     })
     .state('profile', {
       url: '/profile/:profileId',
-      templateUrl: 'assets/views/profile/profile.html',
-      controller: 'profileController'
+      templateUrl: 'assets/views/profile/profile.html', //controllerAs complete on this page
+      controller: 'ProfileController',
+      controllerAs: 'profile'
     });
 });
