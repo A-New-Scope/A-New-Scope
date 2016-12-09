@@ -165,7 +165,7 @@ module.exports = function(grunt) {
             nodemon.on('config:update', function () {
               // Delay before server listens on port
               setTimeout(function() {
-                require('opn')('http://localhost:3300');
+                require('opn')('http://localhost:3300/#/user');
               }, 1000);
             });
 
@@ -231,9 +231,9 @@ module.exports = function(grunt) {
 
   // TODO: register tasks
   grunt.registerTask('default', ['dev']);
-  grunt.registerTask('dev', ['env:dev', 'concurrent:dev']);
+  grunt.registerTask('dev', ['env:dev', 'injector:dev', 'concurrent:dev']);
   grunt.registerTask('test', ['eslint', 'csslint']);
-  grunt.registerTask('build', ['env:production', 'cssmin', 'babel', 'uglify', 'concat']);
+  grunt.registerTask('build', ['env:production', 'injector:dist', 'cssmin', 'babel', 'uglify', 'concat']);
   grunt.registerTask('upload', []);
   grunt.registerTask('deploy', ['test', 'build', 'upload']);
 
