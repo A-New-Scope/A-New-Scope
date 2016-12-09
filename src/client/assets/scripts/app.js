@@ -18,7 +18,7 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
   $stateProvider
     .state('user', {
       url: '/user',
-      templateUrl: 'assets/views/user/user.html', //controllerAs complete on this page
+      templateUrl: 'assets/views/user/user.html',
       controller: 'UserController',
       controllerAs: 'user',
       resolve: {
@@ -27,7 +27,7 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
     })
     .state('edit', {
       url: '/edit/:trackId',
-      templateUrl: 'assets/views/edit/edit.html', //controllerAs complete on this page
+      templateUrl: 'assets/views/edit/edit.html',
       controller: 'EditController',
       controllerAs: 'edit',
       resolve: {
@@ -36,13 +36,13 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
     })
     .state('login', {
       url: '/login',
-      templateUrl: 'assets/views/login/login.html', //controllerAs complete on this page
+      templateUrl: 'assets/views/login/login.html',
       controller: 'AuthController',
       controllerAs: 'auth'
     })
     .state('signup', {
       url: '/signup',
-      templateUrl: 'assets/views/signup/signup.html', //controllerAs complete on this page
+      templateUrl: 'assets/views/signup/signup.html',
       controller: 'AuthController',
       controllerAs: 'auth'
     })
@@ -54,7 +54,7 @@ angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 
     })
     .state('profile', {
       url: '/profile/:profileId',
-      templateUrl: 'assets/views/profile/profile.html', //controllerAs complete on this page
+      templateUrl: 'assets/views/profile/profile.html',
       controller: 'ProfileController',
       controllerAs: 'profile'
     });
