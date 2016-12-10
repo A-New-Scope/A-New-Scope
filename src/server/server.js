@@ -171,7 +171,7 @@ app.get('/userCollection', isLoggedIn, function(req, res){
   })
 })
 
-app.post('/updateSong', isLoggedIn, function(req, res){
+app.post('/updateSongName', isLoggedIn, function(req, res){
   gfs.files.update(
     {
       'metadata.songName': req.body.songName,

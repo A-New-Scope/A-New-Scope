@@ -5,7 +5,7 @@ angular.module('UserModule', [])
   vm.collectionData = [];
   vm.profilePicture = null;
 
-  vm.edit = function(filename, songName) {
+  vm.editSong = function(filename, songName) {
     $state.go('edit', {trackId: songName});
   };
 
