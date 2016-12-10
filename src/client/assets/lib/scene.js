@@ -25,8 +25,7 @@ let createParticle = function(color, speed, direct) {
   //Create a vector which equal to the mouse position
   let vertices = new THREE.Vector3(
     mouse.x,
-    mouse.y,
-    Math.random() * 100
+    mouse.y
   );
   //We apply our vector inside the geometry
   geometry.vertices.push(vertices);
