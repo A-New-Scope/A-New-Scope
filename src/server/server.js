@@ -157,6 +157,8 @@ app.get('/logout', (req, res) => {
 setInterval(() => {
   del(['./src/client/imports/*']).then(data => {
     console.log('imports cleared', data);
+  }).catch(err => {
+    throw err;
   });
 }, 300000); //clear imports every 5 minutes
             //
@@ -205,6 +207,8 @@ app.post('/importSong', (req, res) => {
         res.end('success');
       });
     }
+  }).catch(err => {
+    throw err;
   });
 });
 
@@ -273,6 +277,8 @@ app.get('/getUserCollection', isLoggedIn, (req, res) => {
   fsFile.find({'metadata.username': req.session.passport.user})
   .then(data => {
     res.send(data);
+  }).catch(err => {
+    throw err;
   });
 });
 
@@ -289,6 +295,8 @@ app.post('/updateSongName', isLoggedIn, (req, res) => {
     }
   ).then(() => {
     res.end();
+  }).catch(err => {
+    throw err;
   });
 });
 
@@ -298,6 +306,8 @@ app.post('/removeSong', isLoggedIn, (req, res) => {
     'metadata.songName': req.body.songName
   }).then(() => {
     res.end();
+  }).catch(err => {
+    throw err;
   });
 });
 
@@ -306,6 +316,8 @@ app.post('/publicCollection', (req, res) => {
     'metadata.username': req.body.username
   }).then(data => {
     res.send(data);
+  }).catch(err => {
+    throw err;
   });
 });
 
@@ -322,6 +334,8 @@ app.post('/search', (req, res) => {
       temp.users = userdata.length > 0 ? query : null;
       res.send(temp);
     });
+  }).catch(err => {
+    throw err;
   });
 });
 
