@@ -354,8 +354,8 @@ app.post('/search', (req, res) => {
  * Returns the username of the currently logged in session
  * on the passport object.
  */
-app.get('/getCurrentSession', isLoggedIn, (req, res) => {
-  console.log('res of /getCurrentSession is ', res);
+app.get('/getCurrentUsername', isLoggedIn, (req, res) => {
+  console.log('res of /getCurrentUsername is ', res);
   console.log('req.session.passport.user is ', req.session.passport.user);
   res.send(req.session.passport.user);
 });

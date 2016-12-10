@@ -15,7 +15,6 @@ angular.module('Factories', [])
     });
   };
 
-  /* ORIGINALLY IN USERFACTORY */
   factory.logout = function() {
     $http.get('/logout')
     .then($state.go('login'));

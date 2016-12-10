@@ -4,11 +4,10 @@ angular.module('Factories')
 
   let factory = {};
 
-  /* Originally in UserFactory */
   // gets username ⇒ change to getUsername
   // was used for profile pic functionality; not currently used
-  factory.getCurrentSession = function() {
-    return $http.get('/getCurrentSession');
+  factory.getCurrentUsername = function() {
+    return $http.get('/getCurrentUsername');
   };
 
   /**

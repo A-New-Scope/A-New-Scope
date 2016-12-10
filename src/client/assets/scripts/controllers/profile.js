@@ -2,12 +2,10 @@ angular.module('Controllers')
 
 .controller('ProfileController', function(UserFactory, SongFactory, $stateParams) { 
   let vm = this;
-  // vm.profilePicture = null;
 
   vm.username = $stateParams.profileId;
   
   vm.displayMsg = `profile for ${vm.username}`;
-
 
   vm.collectionData = [];
 
@@ -25,7 +23,7 @@ angular.module('Controllers')
 
 /**
  * Immediately instantiated function that populates vm.collectionData
- * with a list of uploaded 
+ * with a list of already-uploaded songs.
  */
   vm.getPublicCollection = UserFactory.getPublicCollection(vm.username)
   .then(function(data) {
@@ -41,6 +39,8 @@ angular.module('Controllers')
   });
 
   /*  BUGGY PROFILE PICTURE
+  
+  vm.profilePicture = null;
   
   vm.importPicture = function() {
     $http({
