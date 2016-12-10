@@ -1,18 +1,30 @@
 angular.module('SearchModule', [])
-.controller('SearchController', function($http, $state) {
+
+.factory('SearchFactory', function ($http, $state) {
+  let factory = {};
+
+  factory.searchAll = function(query) {
+    return $http.post('/search', {query: query});
+  };
+
+  factory.navTo = function(item) {
+    $state.go('profile', {profileId: item});
+  };
+
+  return factory;
+
+})
+.controller('SearchController', function(SearchFactory) {
   let vm = this;
   vm.results = {};
   vm.songMessage = '';
   vm.userMessage = '';
 
-  vm.searchAll = function(query) {
+  vm.searchAll = function (input) {
     vm.songMessage = '';
     vm.userMessage = '';
-    $http({
-      method: 'POST',
-      url: '/search',
-      data: {query: query}
-    }).then(function(data) {
+    SearchFactory.searchAll(input)
+    .then(function(data) {
       vm.results.songs = data.data.songs;
       vm.results.users = data.data.users;
       if (data.data.songs.length > 0) {
@@ -22,9 +34,5 @@ angular.module('SearchModule', [])
         vm.userMessage = 'users found';
       }
     });
-  };
-
-  vm.navTo = function(item) {
-    $state.go('profile', {profileId: item});
   };
 });

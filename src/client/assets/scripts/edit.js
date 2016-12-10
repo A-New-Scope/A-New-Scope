@@ -1,29 +1,39 @@
 angular.module('EditModule', [])
-.controller('EditController', function($http, $stateParams, $state) {
-  let vm = this;
-  vm.trackId = $stateParams.trackId;
- //edit name
- //delete track
-  vm.deleteSong = function() {
-    $http({
-      method: 'POST',
-      url: '/removeSong',
-      data: {songName: vm.trackId}
-    }).then(function() {
+
+.factory('EditFactory', function($http, $state) {
+  let factory = {};
+
+  factory.deleteSong = function(trackId) {
+    $http.post('/removeSong', {
+      songName: trackId
+    })
+    .then(function() {
       $state.go('user');
     });
   };
 
-  vm.updateSongName = function(newName) {
-    $http({
-      method: 'POST',
-      url: '/updateSongName',
-      data: {
-        songName: vm.trackId,
-        newName: newName
-      }
-    }).then(function() {
+  factory.updateSongName = function(trackId, newName) {
+    $http.post('/updateSongName', {
+      songName: trackId,
+      newName: newName
+    })
+    .then(function() {
       $state.go('user');
     });
   };
+
+  return factory;
+})
+.controller('EditController', function(EditFactory, $stateParams) {
+  let vm = this;
+  vm.trackId = $stateParams.trackId;
+
+  vm.deleteSong = function(trackId) {
+    EditFactory.deleteSong(trackId);
+  };
+
+  vm.updateSongName = function(newName) {
+    EditFactory.updateSongName.call(vm, vm.trackId, newName);
+  };
+
 });
