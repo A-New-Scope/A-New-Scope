@@ -24,13 +24,13 @@ let createParticle = function(color, speed, direct) {
   let geometry = new THREE.Geometry();
   //Create a vector which equal to the mouse position
   let vertices = new THREE.Vector3(
-  mouse.x,
-  mouse.y,
-  -10
+    mouse.x,
+    mouse.y,
+    Math.random() * 100
   );
   //We apply our vector inside the geometry
   geometry.vertices.push(vertices);
-  //We create a white material
+  //We create a material
   //sizeAttenuation defines if the particle will be small if far from the camera
   let material = new THREE.PointsMaterial({
     color: color,
@@ -56,19 +56,23 @@ let animateDot = function () {
   //Create a new particle
   createParticle(0xff0000, Math.random() / 10 + 0.002, {
     x: (Math.random() - .5) * ww * 2,
-    y: (Math.random() - .5) * wh * 2
+    y: (Math.random() - .5) * wh * 2,
+    z: (Math.random() - .5) * wh * 2
   });
   createParticle(0x0000FF, Math.random() / 10 + 0.002, {
     x: (Math.random() - .3) * ww * 2,
-    y: (Math.random() - .3) * wh * 2
+    y: (Math.random() - .3) * wh * 2,
+    z: (Math.random() - .3) * wh * 2
   });
   createParticle(0x00FF00, Math.random() / 10 + 0.002, {
     x: (Math.random() - .1) * ww * 1.5,
-    y: (Math.random() - .1) * wh * 1.5
+    y: (Math.random() - .1) * wh * 1.5,
+    z: (Math.random() - .5) * wh * 2
   });
   createParticle(0x00FF00, boost[50] / 100 + 0.05, {
-    x: (Math.random() - boost[10]/1000) * ww * 2,
-    y: (Math.random() - boost[10]/1000) * wh * 2
+    x: (Math.random() - boost[10] / 1000) * ww * 2,
+    y: (Math.random() - boost[10] / 1000) * wh * 2,
+    z: (Math.random() - .5) * wh * 2
   });
 
   //We loop through all our particles
@@ -81,6 +85,7 @@ let animateDot = function () {
 	//We move our particle closer to its destination
     particle.geometry.vertices[0].x += (particle.direction.x - particle.geometry.vertices[0].x) * particle.speed;
     particle.geometry.vertices[0].y += (particle.direction.y - particle.geometry.vertices[0].y) * particle.speed;
+    particle.geometry.vertices[0].z += (particle.direction.z - particle.geometry.vertices[0].z) * particle.speed;
   //We reduce the opacity of the particle
     particle.material.opacity -= .005;
   //Prevents ThreeJs the particle has moved
