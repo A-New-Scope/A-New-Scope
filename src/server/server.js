@@ -311,7 +311,7 @@ app.post('/removeSong', isLoggedIn, (req, res) => {
   });
 });
 
-app.post('/publicCollection', (req, res) => {
+app.post('/getPublicCollection', (req, res) => {
   fsFile.find({
     'metadata.username': req.body.username
   }).then(data => {
@@ -321,9 +321,15 @@ app.post('/publicCollection', (req, res) => {
   });
 });
 
+// How to handle if song name and user name are the same?
+
+/**
+ * Serve an object with song names and usernames that match
+ * the query.
+ */
 app.post('/search', (req, res) => {
   const query = req.body.query;
-  const temp = {};
+  let temp = {};
   fsFile.find({
     'metadata.songName': query
   }).then(songdata => { //find songs
@@ -339,6 +345,10 @@ app.post('/search', (req, res) => {
   });
 });
 
+/**
+ * Returns the username of the currently logged in session
+ * on the passport object.
+ */
 app.get('/getCurrentSession', isLoggedIn, (req, res) => {
   console.log('res of /getCurrentSession is ', res);
   console.log('req.session.passport.user is ', req.session.passport.user);

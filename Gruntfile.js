@@ -109,10 +109,10 @@ module.exports = function(grunt) {
           'src/client/index.html': [
             'src/client/assets/lib/*.js',
             '!src/client/assets/lib/scene.js',
+            'src/client/assets/scripts/factories/*.js',
             'src/client/assets/scripts/*.js',
             'src/client/assets/styles/*.css',
-            'src/client/assets/views/**/*.js',
-            'node_modules/livereload-js/dist/livereload.js'
+            'src/client/assets/views/**/*.js'
           ]
         }
       },
