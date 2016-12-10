@@ -1,7 +1,7 @@
 angular.module('ProfileModule', [])
 .controller('ProfileController', function($http, $stateParams) { 
   let vm = this;
-  vm.profilePicture = null;
+  // vm.profilePicture = null;
   vm.profileId = $stateParams.profileId;
   vm.displayMsg = 'profile for ' + $stateParams.profileId;
   vm.collectionData = [];
@@ -41,6 +41,8 @@ angular.module('ProfileModule', [])
     });
   };
 
+  /*  BUGGY PROFILE PICTURE
+  
   vm.importPicture = function() {
     $http({
       method: 'POST',
@@ -56,5 +58,6 @@ angular.module('ProfileModule', [])
   };
 
   vm.importPicture();
+  */
   vm.publicCollection();
 });
