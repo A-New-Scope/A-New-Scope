@@ -3,37 +3,37 @@ angular.module('EditModule', [])
 .factory('EditFactory', function($http, $state) {
   let factory = {};
 
-  factory.deleteSong = function () {
-
-  };
-
-  factory.updateSongName = function () {
-
-  };
-
-  return factory;
-})
-.controller('EditController', function(EditFactory, $http, $state, $stateParams) {
-  let vm = this;
-  vm.trackId = $stateParams.trackId;
- //edit name
- //delete track
-  vm.deleteSong = function() {
+  factory.deleteSong = function(trackId) {
     $http.post('/removeSong', {
-      songName: vm.trackId
+      songName: trackId
     })
     .then(function() {
       $state.go('user');
     });
   };
 
-  vm.updateSongName = function(newName) {
+  factory.updateSongName = function(trackId, newName) {
     $http.post('/updateSongName', {
-      songName: vm.trackId,
+      songName: trackId,
       newName: newName
     })
     .then(function() {
       $state.go('user');
     });
   };
+
+  return factory;
+})
+.controller('EditController', function(EditFactory, $stateParams) {
+  let vm = this;
+  vm.trackId = $stateParams.trackId;
+
+  vm.deleteSong = function(trackId) {
+    EditFactory.deleteSong(trackId);
+  };
+
+  vm.updateSongName = function(newName) {
+    EditFactory.updateSongName.call(vm, vm.trackId, newName);
+  };
+
 });
