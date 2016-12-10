@@ -145,6 +145,9 @@ app.get('/auth', isLoggedIn, (req, res) => {
   res.end();
 });
 
+/**
+ * Uses built-in Passport functionality to log out.
+ */
 app.get('/logout', (req, res) => {
   req.logout();
   res.end();
@@ -206,8 +209,8 @@ app.post('/import', (req, res) => {
 });
 
 
-//-UPLOAD PROFILE PICTURE
-app.post('/uploadPicture', isLoggedIn, upload, (req, res) => {
+// BUGGY: PROFILE PICTURE
+/*app.post('/uploadPicture', isLoggedIn, upload, (req, res) => {
   console.log(req.files[0]);
   if (!req.files[0]) {
     res.redirect('/#/user');
@@ -262,7 +265,7 @@ app.get('/removePicture', isLoggedIn, (req, res) => {
   }).then(() => {
     res.end();
   });
-});
+});*/
 
 
 

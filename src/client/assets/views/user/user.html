@@ -1,7 +1,9 @@
 <div id='container' align="center">
   <h1>your dashboard</h1>
 
-  <div ng-show="!user.profilePicture">
+<!--   
+BUGGY PROFILE PICTURE SECTION
+<div ng-show="!user.profilePicture">
     <h2>upload a profile picture</h2>
     <form action="/uploadPicture" method="post" enctype="multipart/form-data">
       <input type="file" enctype="multipart/form-data" name="imageFile" />
@@ -15,7 +17,7 @@
     <img ng-src="{{user.profilePicture}}" height="100" width="100" />
     <br />
     <button ng-click="user.removePicture()">delete profile picture</button>
-  </div>
+  </div> -->
 
   <h2>upload a song</h2>
   <form action="/upload" method="post" enctype="multipart/form-data">
