@@ -1,12 +1,10 @@
-angular.module('App', ['ui.router', 'UserModule', 'AuthModule', 'SearchModule', 'ProfileModule', 'EditModule'])
+angular.module('App', ['ui.router', 'Factories', 'UserModule', 'AuthModule', 'SearchModule', 'ProfileModule', 'EditModule'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
   let checkSession = function ($state, $http) {
-    $http({
-      method: 'GET',
-      url: '/auth'
-    }).then(function(res) {
+    $http.get('/auth')
+    .then(function(res) {
       if (res.data.length > 0) {
         $state.go('login');
       }

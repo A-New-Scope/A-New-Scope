@@ -1,37 +1,6 @@
-angular.module('ProfileModule', [])
+angular.module('ProfileModule', ['Factories'])
 
-.factory('ProfileFactory', function($http) {
-  let factory = {};
-
-  /**
-   * Imports song, which then autoplays (see audio.js).
-   *
-   * @param      {string}  username  The username
-   * @param      {string}  filename  The filename
-   * @param      {string}  songName  The song name
-   */
-  factory.importSong = function(username, filename, songName) {
-    $http.post('/importSong', {
-      username: username,
-      filename: filename,
-      songName: songName
-    })
-    .then(function(res) {
-      if (res.data) {
-        audio.src = 'imports/' + filename;
-      }
-    });
-  };
-
-  factory.publicCollection = function(username) {
-    return $http.post('/publicCollection', {
-      username
-    });
-  };
-
-  return factory;
-})
-.controller('ProfileController', function(ProfileFactory, $stateParams) { 
+.controller('ProfileController', function(UserFactory, SongFactory, $stateParams) { 
   let vm = this;
   // vm.profilePicture = null;
   vm.profileId = $stateParams.profileId;
@@ -39,10 +8,10 @@ angular.module('ProfileModule', [])
   vm.collectionData = [];
 
   vm.importSong = function(filename, songName) {
-    ProfileFactory.importSong.call(vm, vm.profileId, filename, songName);
+    SongFactory.importSong.call(vm, vm.profileId, filename, songName);
   };
 
-  vm.publicCollection = ProfileFactory.publicCollection(vm.profileId)
+  vm.getPublicCollection = UserFactory.getPublicCollection(vm.profileId)
   .then(function(data) {
     if (!data.data.length) {
       vm.displayMsg = 'user not found!';
