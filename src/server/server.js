@@ -184,7 +184,7 @@ app.post('/upload', isLoggedIn, upload, (req, res) => {
   }
 });
 
-app.post('/import', (req, res) => {
+app.post('/importSong', (req, res) => {
   fsFile.find({
     filename: req.body.filename,
     'metadata.username': req.body.username,
