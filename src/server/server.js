@@ -1,3 +1,5 @@
+/* eslint-disable no-console, angular/log, angular/interval-service */
+
 //TO DO
 //LEARN MODULE.EXPORTS SUCKER --THIS FILE IS HUGE
 //FLASH SUCCESS/FAILURE MESSAGES ON EDIT AND LOGIN/SIGNUP
@@ -40,10 +42,10 @@ const fsFile = mongoose.model('fs.file', new mongoose.Schema());
 
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-  })
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+})
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -56,6 +58,105 @@ app.listen(port);
 
 console.log('running on ', port);
 
+////////////////////////PASSPORT////////////////////////////
+
+//-USER SCHEMA
+const userSchema = mongoose.Schema({
+  username: {type: String, required: true},
+  password: {type: String, required: true}
+});
+
+userSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+const User = mongoose.model('User', userSchema);
+
+//-SESSIONS
+passport.serializeUser((user, done) => { //for session use
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+let isLoggedIn = (req, res, next) => { //check session active
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.send('unauthorized');
+};
+
+//-AUTH
+passport.use('login',
+  new LocalStrategy((username, password, done) => {
+    User.findOne({
+      'username': username
+    }, (err, data) => {
+      if (!data) {
+        console.log('user not found');
+        return done(null, false);
+      }
+      if (!data.comparePassword(password)) {
+        console.log('invalid password');
+        return done(null, false);
+      } else {
+        return done(null, username);
+      }
+    });
+  })
+);
+
+passport.use('signup', new LocalStrategy((username, password, done) => {
+  process.nextTick(() => {
+    User.find({'username': username}, (err, data) => {
+      if (!data.length) {
+        const temp = new User({ //create a new user to store in db
+          username
+        });
+        temp.password = temp.generateHash(password);
+        temp.save(err => {
+          if (err) {
+            throw err;
+          }
+          console.log('registered user', username);
+          return done(null, username);
+        });
+      } else {
+        console.log('user already exists');
+        return done(null, false);
+      }
+    });
+  });
+}));
+
+app.post('/login', passport.authenticate('login'), (req, res) => {
+  res.end();
+});
+
+app.post('/signup', passport.authenticate('signup'), (req, res) => {
+  res.end();
+});
+
+app.get('/auth', isLoggedIn, (req, res) => {
+  res.end();
+});
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.end();
+});
+
+//-CLEAR IMPORTS PERIODICALLY
+setInterval(() => {
+  del(['./src/client/imports/*']).then(data => {
+    console.log('imports cleared', data);
+  });
+}, 300000); //clear imports every 5 minutes
+            //
 //////////////////////////UPLOAD////////////////////////////
 
 //--UPLOAD SONG
@@ -71,10 +172,10 @@ app.post('/upload', isLoggedIn, upload, (req, res) => {
         songName: req.body.songName
       } //username from session, store more specs in here
     });
-    fs.createReadStream('./uploadTemp/${temp}').pipe(writestream);
+    fs.createReadStream(`./uploadTemp/${temp}`).pipe(writestream);
     writestream.on('close', file => {
-      console.log('${file.filename} Written To DB');
-      fs.unlink('./uploadTemp/${temp}');
+      console.log(`${file.filename} written To DB`);
+      fs.unlink(`./uploadTemp/${temp}`);
       res.redirect('/#/user');
     });
   }
@@ -90,14 +191,14 @@ app.post('/import', (req, res) => {
       console.log('file not in db');
       res.end();
     } else {
-      const writestream = fs.createWriteStream('./src/client/imports/${req.body.filename}'); //write to imports folder
+      const writestream = fs.createWriteStream(`./src/client/imports/${req.body.filename}`); //write to imports folder
       const readstream = gfs.createReadStream({ //read from mongodb
         filename: req.body.filename
         //search by user, search by animation HERE
       });
       readstream.pipe(writestream);
       writestream.on('close', () => {
-        console.log('${req.body.filename} written to imports');
+        console.log(`${req.body.filename} written to imports`);
         res.end('success');
       });
     }
@@ -119,10 +220,10 @@ app.post('/uploadPicture', isLoggedIn, upload, (req, res) => {
         type: 'image'
       }
     });
-    fs.createReadStream('./uploadTemp/${temp}').pipe(writestream);
+    fs.createReadStream(`./uploadTemp/${temp}`).pipe(writestream);
     writestream.on('close', file => {
-      console.log('${file} Written To DB');
-      fs.unlink('./uploadTemp/${temp}');
+      console.log(`${file} written To DB`);
+      fs.unlink(`./uploadTemp/${temp}`);
       res.redirect('/#/user');
     });
   }
@@ -141,13 +242,13 @@ app.post('/importPicture', (req, res) => {
       console.log('file not in db');
       res.end();
     } else {
-      const writestream = fs.createWriteStream('./src/client/imports/${req.body.username}.png'); //write to importss folder
+      const writestream = fs.createWriteStream(`./src/client/imports/${req.body.username}.png`); //write to imports folder
       const readstream = gfs.createReadStream({ //read from mongodb
         filename: req.body.filename
       });
       readstream.pipe(writestream);
       writestream.on('close', () => {
-        console.log('${req.body.username}.png written to imports');
+        console.log(`${req.body.username}.png written to imports`);
         res.end('success');
       });
     }
@@ -164,8 +265,10 @@ app.get('/removePicture', isLoggedIn, (req, res) => {
 });
 
 
-app.get('/userCollection', isLoggedIn, (req, res) => {
-  fsFile.find({'metadata.username': req.session.passport.user}).then(data => {
+
+app.get('/getUserCollection', isLoggedIn, (req, res) => {
+  fsFile.find({'metadata.username': req.session.passport.user})
+  .then(data => {
     res.send(data);
   });
 });
@@ -213,111 +316,17 @@ app.post('/search', (req, res) => {
     fsFile.find({
       'metadata.username': query
     }).then(userdata => { //find users
-      temp.users = userdata.length > 0 ? query : null
+      temp.users = userdata.length > 0 ? query : null;
       res.send(temp);
     });
   });
 });
 
 app.get('/getCurrentSession', isLoggedIn, (req, res) => {
+  console.log('res of /getCurrentSession is ', res);
+  console.log('req.session.passport.user is ', req.session.passport.user);
   res.send(req.session.passport.user);
 });
 
-////////////////////////PASSPORT////////////////////////////
 
-//-USER SCHEMA
-const userSchema = mongoose.Schema({
-  username: {type: String, required: true},
-  password: {type: String, required: true}
-});
-
-userSchema.methods.generateHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-
-userSchema.methods.comparePassword = function (password) {
-  return bcrypt.compareSync(password, this.password);
-};
-
-const User = mongoose.model('User', userSchema);
-
-//-SESSIONS
-passport.serializeUser((user, done) => { //for session use
-  done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});
-
-function isLoggedIn(req, res, next) { //check session active
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.send('unauthorized');
-}
-
-//-AUTH
-passport.use('login',
-  new LocalStrategy((username, password, done) => {
-    User.findOne({
-      'username': username
-    }, (err, data) => {
-      if (!data) {
-        console.log('user not found');
-        return done(null, false);
-      }
-      if (!data.comparePassword(password)) {
-        console.log('invalid password');
-        return done(null, false);
-      } else {
-        return done(null, username);
-      }
-    });
-}));
-
-passport.use('signup', new LocalStrategy((username, password, done) => {
-  process.nextTick(() => {
-    User.find({'username': username}, (err, data) => {
-      if (!data.length) {
-        const temp = new User({ //create a new user to store in db
-          username
-        });
-        temp.password = temp.generateHash(password);
-        temp.save(err => {
-          if(err){
-            throw err;
-          }
-          console.log('registered user', username);
-          return done(null, username);
-        });
-      } else {
-        console.log('user already exists');
-        return done(null, false);
-      }
-    });
-  });
-}));
-
-app.post('/login', passport.authenticate('login'), (req, res) => {
-  res.end();
-});
-
-app.post('/signup', passport.authenticate('signup'), (req, res) => {
-  res.end();
-});
-
-app.get('/auth', isLoggedIn, (req, res) => {
-  res.end();
-});
-
-app.get('/logout', (req, res) => {
-  req.logout();
-  res.end();
-});
-
-//-CLEAR IMPORTS PERIODICALLY
-setInterval(() => {
-  del(['./src/client/imports/*']).then(data => {
-    console.log('imports cleared', data);
-  });
-}, 300000); //clear imports every 5 minutes
 ////////////////////////////////////////////////////////////
