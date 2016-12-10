@@ -300,6 +300,11 @@ app.post('/updateSongName', isLoggedIn, (req, res) => {
   });
 });
 
+/**
+ * Please note that route only removes song metadata from the
+ * database. The song itself is not deleted. To clear the 
+ * song file itself from the database, you need to delete fs.chunks.
+ */
 app.post('/removeSong', isLoggedIn, (req, res) => {
   fsFile.remove({
     'metadata.username': req.session.passport.user,

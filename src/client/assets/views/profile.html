@@ -6,7 +6,7 @@ BUGGY PROFILE PICTURE
   {{profile.displayMsg}}
 </h1>
 
-<h2 ng-model="profile.profileId">{{profile.profileId}}'s uploads</h2>
+<h2 ng-model="profile.username">{{profile.username}}'s uploads</h2>
 <div ng-repeat="item in profile.collectionData" ng-click="profile.importSong(item.filename, item.songName)">
   <h4>{{item.songName}}</h4>
 </div>
