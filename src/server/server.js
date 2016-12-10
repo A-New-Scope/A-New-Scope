@@ -83,7 +83,7 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-let isLoggedIn = (req, res, next) => { //check session active
+const isLoggedIn = (req, res, next) => { //check session active
   if (req.isAuthenticated()) {
     return next();
   }
