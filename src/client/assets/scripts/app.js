@@ -1,4 +1,4 @@
-angular.module('App', ['ui.router', 'Factories', 'UserModule', 'AuthModule', 'SearchModule', 'ProfileModule', 'EditModule'])
+angular.module('App', ['ui.router', 'Factories', 'Controllers'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 

@@ -1,4 +1,4 @@
-angular.module('ProfileModule', ['Factories'])
+angular.module('Controllers')
 
 .controller('ProfileController', function(UserFactory, SongFactory, $stateParams) { 
   let vm = this;

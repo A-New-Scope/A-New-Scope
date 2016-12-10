@@ -1,4 +1,4 @@
-angular.module('AuthModule', ['Factories'])
+angular.module('Controllers', ['Factories'])
 
 .controller('AuthController', function(AuthFactory) {
   let vm = this;

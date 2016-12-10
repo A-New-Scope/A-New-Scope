@@ -1,4 +1,4 @@
-angular.module('UserModule', ['Factories'])
+angular.module('Controllers')
 
 .controller('UserController', function(AuthFactory, NavFactory, SongFactory, UserFactory) {
   let vm = this;

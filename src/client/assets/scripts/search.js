@@ -1,4 +1,4 @@
-angular.module('SearchModule', ['Factories'])
+angular.module('Controllers')
 
 .controller('SearchController', function(SearchFactory, NavFactory) {
   let vm = this;

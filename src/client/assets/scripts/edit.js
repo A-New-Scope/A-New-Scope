@@ -1,4 +1,4 @@
-angular.module('EditModule', ['Factories'])
+angular.module('Controllers')
 
 .controller('EditController', function(SongFactory, $stateParams) {
   let vm = this;
