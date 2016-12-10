@@ -35,19 +35,28 @@
 </head>
 <body>
 
-<img src="assets/images/songspace.png">
 <div class="nav">
-  
-  <h1>more than a demo</h1>
-  <h1><a ui-sref="search">search</a>
-  <a ui-sref="user">dashboard</a>
-  <div id="audio"></div>
-  </h1>
-  <div ui-view></div>
+  <div class="logo"><h1>songspace</h1></div>
+
+  <div class="header">
+    <h1><a ui-sref="search">search </a>
+    -
+    <a ui-sref="user">dashboard</a>
+    <div id="audio"></div>
+    </h1>
+  </div>
+
+  <div class="view" ui-view></div>
 </div>
 
-<canvas id="scene"></canvas>
-<script src="assets/lib/scene.js"></script>
+<div class="footer">
+<strong>/</strong> - toggle play
+<strong>\</strong> - reset cubes
+</div>
+
+<div id="scene"></div>
+<script src="assets/lib/draggableScene.js"></script>
+
 
 </body>
 </html>

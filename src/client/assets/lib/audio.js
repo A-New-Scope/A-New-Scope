@@ -4,7 +4,6 @@
 
 //NEW AUDIO FILE
 let audio = new Audio();
-audio.controls = true;
 audio.autoplay = true;
 
 //LOAD -- GLOBAL variables
@@ -37,3 +36,19 @@ let initMp3Player = function () {
 };
 
 window.addEventListener('load', initMp3Player, false);
+
+document.onkeypress = function (e) {
+  e = e || window.event;
+  if(e.keyCode === 47){
+    if(audio.src){
+      if(audio.paused){
+        audio.play()
+      } else {
+        audio.pause()
+      }
+    }
+  }
+  if(e.keyCode === 92){
+    resetPos()
+  }
+};
