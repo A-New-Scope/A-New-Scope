@@ -107,6 +107,7 @@ module.exports = function(grunt) {
         },
         files: {
           'src/client/index.html': [
+            'src/client/assets/lib/*.js',
             'src/client/assets/scripts/*.js',
             '!src/client/assets/scripts/scene.js',
             'src/client/assets/styles/*.css',
