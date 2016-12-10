@@ -4,14 +4,11 @@ angular.module('AuthModule', [])
   let factory = {};
 
   factory.login = function(user, pass) {
-    $http({
-      method: 'POST',
-      url: '/login',
-      data: {
-        username: user,
-        password: pass
-      }
-    }).then(function(res) {
+    $http.post('/login', {
+      username: user,
+      password: pass
+    })
+    .then(function(res) {
       if (res) {
         $state.go('user');
       }
@@ -19,14 +16,11 @@ angular.module('AuthModule', [])
   };
 
   factory.signup = function(user, pass) {
-    $http({
-      method: 'POST',
-      url: '/signup',
-      data: {
-        username: user,
-        password: pass
-      }
-    }).then(function(res) {
+    $http.post('/signup', {
+      username: user,
+      password: pass
+    })
+    .then(function(res) {
       if (res) {
         $state.go('login');
       }
