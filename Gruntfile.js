@@ -110,24 +110,12 @@ module.exports = function(grunt) {
             'src/client/assets/lib/*.js',
             '!src/client/assets/lib/scene.js',
             'src/client/assets/scripts/factories/*.js',
-            'src/client/assets/scripts/*.js',
+            'src/client/assets/scripts/controllers/*.js',
+            'src/client/assets/scripts/app.js',
             'src/client/assets/styles/*.css',
-            'src/client/assets/views/**/*.js'
           ]
         }
       },
-/*      livereload: {
-        options: {
-          prefix: 'http://localhost:35729',
-          ignorePath: 'node_modules/livereload-js/dist/',
-          starttag: '<!-- injector:js:livereload -->'
-        },
-        files: {
-          'src/client/index.html': [
-            'node_modules/livereload-js/dist/livereload.js'
-          ]
-        }
-      },*/
       dist: {
         files: {
           'src/client/index.html': [
