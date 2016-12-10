@@ -1,10 +1,10 @@
 <h1>sign in to view your dashboard</h1>
-<form ng-submit="auth.login(user, pass)">
+<form ng-submit="auth.login(auth.user, auth.pass)">
 username
-<input ng-model="user" />
+<input ng-model="auth.user" />
 <br />
 password
-<input ng-model="pass" />
+<input ng-model="auth.pass" />
 <button>login</button>
 </form>
 <button ui-sref="signup">sign up</button>

@@ -1,8 +1,9 @@
 angular.module('AuthModule', [])
 
-.controller('AuthController', function($http, $state) {
-  let vm = this;
-  vm.login = function(user, pass) { //MOVE TO FACTORY LATER
+.factory('AuthFactory', function ($http, $state) {
+  let factory = {};
+
+  factory.login = function(user, pass) {
     $http({
       method: 'POST',
       url: '/login',
@@ -15,11 +16,9 @@ angular.module('AuthModule', [])
         $state.go('user');
       }
     });
-    vm.user = null;
-    vm.pass = null;
   };
 
-  vm.signup = function(user, pass) {
+  factory.signup = function(user, pass) {
     $http({
       method: 'POST',
       url: '/signup',
@@ -32,6 +31,22 @@ angular.module('AuthModule', [])
         $state.go('login');
       }
     });
+  };
+
+  return factory;
+})
+
+.controller('AuthController', function(AuthFactory) {
+  let vm = this;
+
+  vm.login = function (user, pass) {
+    AuthFactory.login(user, pass);
+    vm.user = null;
+    vm.pass = null;
+  };
+
+  vm.signup = function (user, pass) {
+    AuthFactory.signup(user, pass);
     vm.user = null;
     vm.pass = null;
   };

@@ -1,11 +1,25 @@
 angular.module('UserModule', [])
 
+/*.factory('UserFactory', function($http, $state) {
+
+  let factory = {};
+
+  factory.editSong = function(songName) {
+    $state.go('edit', {trackId: songName});
+  };
+
+
+
+  return factory;
+
+})*/
+
 .controller('UserController', function($http, $state) {
   let vm = this;
   vm.collectionData = [];
   vm.profilePicture = null;
 
-  vm.edit = function(filename, songName) {
+  vm.editSong = function(songName) {
     $state.go('edit', {trackId: songName});
   };
 

@@ -14,10 +14,10 @@ angular.module('EditModule', [])
     });
   };
 
-  vm.updateSong = function(newName) {
+  vm.updateSongName = function(newName) {
     $http({
       method: 'POST',
-      url: '/updateSong',
+      url: '/updateSongName',
       data: {
         songName: vm.trackId,
         newName: newName
