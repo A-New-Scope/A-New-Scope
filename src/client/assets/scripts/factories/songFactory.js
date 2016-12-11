@@ -3,7 +3,6 @@ angular.module('Factories')
 .factory('SongFactory', function($http, $state) {
   let factory = {};
 
-  /* ORIGINALLY EditFactory */
   factory.deleteSong = function(trackId) {
     $http.post('/removeSong', {
       songName: trackId
@@ -12,8 +11,7 @@ angular.module('Factories')
       $state.go('user');
     });
   };
-  
-  /* ORIGINALLY EditFactory */
+
   factory.updateSongName = function(trackId, newName) {
     $http.post('/updateSongName', {
       songName: trackId,
@@ -24,7 +22,6 @@ angular.module('Factories')
     });
   };
 
-  /* Originally ProfileFactory */
   /**
    * Imports song, which then autoplays (see audio.js).
    *
@@ -45,7 +42,6 @@ angular.module('Factories')
     });
   };
 
-  /* Originally UserFactory */
   /**
    * Go to song-specific edit page
    *

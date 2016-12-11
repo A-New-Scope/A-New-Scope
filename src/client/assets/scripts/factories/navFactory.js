@@ -4,16 +4,20 @@ angular.module('Factories')
 
   let factory = {};
 
-  // originally in search.js
-  // navigate to other users' profiles
-  factory.navTo = function(item) {
-    $state.go('profile', {profileId: item});
+  /**
+   * Navigate to other users' profile pages.
+   *
+   * @param      {string}  name    The name
+   */
+  factory.navTo = function(name) {
+    $state.go('profile', {profileId: name});
   };
 
-  // originally in UserFactory
-  // navigate to your profile
+  /**
+   * Navigate to your profile.
+   */
   factory.navToProfile = function() {
-    $http.get('/getCurrentSession')
+    $http.get('/getCurrentUsername')
     .then(function(data) {
       $state.go('profile', {profileId: data.data});
     });

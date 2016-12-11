@@ -2,16 +2,30 @@ angular.module('Controllers')
 
 .controller('ProfileController', function(UserFactory, SongFactory, $stateParams) { 
   let vm = this;
-  // vm.profilePicture = null;
-  vm.profileId = $stateParams.profileId;
-  vm.displayMsg = `profile for ${vm.profileId}`;
+
+  vm.username = $stateParams.profileId;
+  
+  vm.displayMsg = `profile for ${vm.username}`;
+
   vm.collectionData = [];
 
+/**
+ * When a listed song in collectionData is clicked, 
+ * this function imports the file from the database into 
+ * /assets/imports and autoplays that song.
+ *
+ * @param      {string}  filename  The filename
+ * @param      {string}  songName  The song name
+ */
   vm.importSong = function(filename, songName) {
-    SongFactory.importSong.call(vm, vm.profileId, filename, songName);
+    SongFactory.importSong.call(vm, vm.username, filename, songName);
   };
 
-  vm.getPublicCollection = UserFactory.getPublicCollection(vm.profileId)
+/**
+ * Immediately instantiated function that populates vm.collectionData
+ * with a list of already-uploaded songs.
+ */
+  vm.getPublicCollection = UserFactory.getPublicCollection(vm.username)
   .then(function(data) {
     if (!data.data.length) {
       vm.displayMsg = 'user not found!';
@@ -19,13 +33,14 @@ angular.module('Controllers')
     data.data.forEach(function(item) {
       vm.collectionData.push({
         filename: item.filename,
-        username: item.metadata.username,
         songName: item.metadata.songName
       });
     });
   });
 
   /*  BUGGY PROFILE PICTURE
+  
+  vm.profilePicture = null;
   
   vm.importPicture = function() {
     $http({

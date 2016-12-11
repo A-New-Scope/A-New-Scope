@@ -1,5 +1,10 @@
 angular.module('Controllers')
 
+/**
+ * Controller for a song-specific edit page that allows for updating
+ * the name of the song and deleting the song reference from the
+ * database.
+ */
 .controller('EditController', function(SongFactory, $stateParams) {
   let vm = this;
   vm.trackId = $stateParams.trackId;

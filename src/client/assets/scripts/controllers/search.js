@@ -6,6 +6,11 @@ angular.module('Controllers')
   vm.songMessage = '';
   vm.userMessage = '';
 
+/**
+ * Populates vm.results with query results from SearchFactory.searchAll
+ *
+ * @param      {string}  input   The query to pass to SearchFactory.searchAll
+ */
   vm.searchAll = function (input) {
     vm.songMessage = '';
     vm.userMessage = '';

@@ -1,5 +1,8 @@
 angular.module('Controllers', ['Factories'])
 
+/**
+ * Used for login and signup views.
+ */
 .controller('AuthController', function(AuthFactory) {
   let vm = this;
 
