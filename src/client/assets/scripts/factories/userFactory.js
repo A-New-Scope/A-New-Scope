@@ -4,8 +4,6 @@ angular.module('Factories')
 
   let factory = {};
 
-  // gets username ⇒ change to getUsername
-  // was used for profile pic functionality; not currently used
   factory.getCurrentUsername = function() {
     return $http.get('/getCurrentUsername');
   };
