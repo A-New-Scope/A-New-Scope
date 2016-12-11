@@ -9,7 +9,7 @@ module.exports = function(app, express, gfs, fsFile) {
     if (!req.files[0]) {
       res.redirect('/#/user');
     } else {
-      const temp = req.files[0].originalname;
+      var temp = req.files[0].originalname;
       const writestream = gfs.createWriteStream({
         filename: temp, //filename to store in mongodb
         metadata: {
@@ -79,6 +79,12 @@ module.exports = function(app, express, gfs, fsFile) {
     });
   });
 
+/**
+ * Please note that route only removes song metadata from the
+ * database. The song itself is not deleted. To clear the 
+ * song file itself from the database, you need to delete fs.chunks.
+ */
+
   app.post('/removeSong', passportFile.isLoggedIn, (req, res) => {
     fsFile.remove({
       'metadata.username': req.session.passport.user,
@@ -90,7 +96,7 @@ module.exports = function(app, express, gfs, fsFile) {
     });
   });
 
-  app.post('/publicCollection', (req, res) => {
+  app.post('/getPublicCollection', (req, res) => {
     fsFile.find({
       'metadata.username': req.body.username
     }).then(data => {
@@ -99,10 +105,14 @@ module.exports = function(app, express, gfs, fsFile) {
       throw err;
     });
   });
-
+  
+/**
+ * Serve an object with song names and usernames that match
+ * the query.
+ */
   app.post('/search', (req, res) => {
     const query = req.body.query;
-    const temp = {};
+    var temp = {};
     fsFile.find({
       'metadata.songName': query
     }).then(songdata => { //find songs

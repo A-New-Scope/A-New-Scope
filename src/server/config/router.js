@@ -24,8 +24,13 @@ module.exports = function(app, express) {
 
 /////////////////////////////////////////////////
 
-  app.get('/getCurrentSession', passportFile.isLoggedIn, (req, res) => {
-    console.log('res of /getCurrentSession is ', res);
+/**
+ * Returns the username of the currently logged in session
+ * on the passport object.
+ */
+
+  app.get('/getCurrentUsername', passportFile.isLoggedIn, (req, res) => {
+    console.log('res of /getCurrentUsername is ', res);
     console.log('req.session.passport.user is ', req.session.passport.user);
     res.send(req.session.passport.user);
   });
