@@ -4,6 +4,9 @@ module.exports = function(grunt) {
    angular/timeout-service: "off", angular/log: "off", no-console: "off" */
   require('load-grunt-tasks')(grunt); // in lieu of grunt.loadNpmTasks('grunt-*'), which need to be deleted below
 
+
+  // Consider using "grunt-load-config" to clean up this file
+  // See https://www.html5rocks.com/en/tutorials/tooling/supercharging-your-gruntfile/
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
@@ -116,6 +119,9 @@ module.exports = function(grunt) {
           ]
         }
       },
+      // not working; pushed to production with injector:dev
+      // when working, "grunt build" should replace injector:dev
+      // with injector:dist
       dist: {
         files: {
           'src/client/index.html': [
@@ -138,6 +144,7 @@ module.exports = function(grunt) {
 
     ngAnnotate: {
       //TODO
+      // needed in order to serve minifed JS with angular in it
     },
 
     nodemon: {
@@ -222,7 +229,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['dev']);
   grunt.registerTask('dev', ['env:dev', 'injector:dev', 'concurrent:dev']);
   grunt.registerTask('test', ['eslint', 'csslint']);
-  grunt.registerTask('build', ['env:production', 'injector:dist', 'cssmin', 'babel', 'uglify', 'concat']);
+  grunt.registerTask('build', ['env:production', 'injector:dev', 'cssmin', 'ngAnnotate', 'babel', 'uglify', 'concat']);
   grunt.registerTask('upload', []);
   grunt.registerTask('deploy', ['test', 'build', 'upload']);
 
