@@ -13,7 +13,7 @@ angular.module('Factories')
   // originally in UserFactory
   // navigate to your profile
   factory.navToProfile = function() {
-    $http.get('/getCurrentSession')
+    $http.get('/getCurrentUsername')
     .then(function(data) {
       $state.go('profile', {profileId: data.data});
     });
