@@ -16,29 +16,33 @@ Oh, and I also like to write press-releases in what I call "Oprah-speak" for mai
 Once the project moves into development, the press release can be used as a touchstone; a guiding light. The product team can ask themselves, "Are we building what is in the press release?" If they find they're spending time building things that aren't in the press release (overbuilding), they need to ask themselves why. This keeps product development focused on achieving the customer benefits and not building extraneous stuff that takes longer to build, takes resources to maintain, and doesn't provide real customer benefit (at least not enough to warrant inclusion in the press release).
  -->
  
-## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+## songspace ##
 
-## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  > music, VISUALIZED 
+
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+
+  > Upload any song you like and marvel at the visualization dancing before your eyes! Click and drag to move objects, toggle play or reset the objects at any time.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > 2D visualizatoin is boring.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > 3D visualization is the exciting future!
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > We've created an elegantly interactive song player, and we are proud to present it to the world.
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Just sign up
+  > Login
+  > Upload or search a song from our library of user uploaded songs
+  > Click & play
+  > Enjoy!
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > OMGEE 3D?!!!
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Visit songspace.me now!
