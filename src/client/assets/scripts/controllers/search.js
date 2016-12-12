@@ -5,7 +5,6 @@ angular.module('Controllers')
   vm.results = {};
   vm.songMessage = '';
   vm.userMessage = '';
-
 /**
  * Populates vm.results with query results from SearchFactory.searchAll
  *

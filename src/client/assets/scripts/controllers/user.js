@@ -11,6 +11,6 @@ angular.module('Controllers')
   vm.logout = AuthFactory.logout;
 
   vm.navToProfile = NavFactory.navToProfile;
-  
+
   // vm.profilePicture = null;
 });
