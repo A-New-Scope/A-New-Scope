@@ -18,6 +18,7 @@
   <!-- endinjector -->
   <!-- injector:js -->
   <script src="assets/lib/audio.js"></script>
+  <script src="assets/lib/draggableScene.js"></script>
   <script src="assets/lib/orbit.js"></script>
   <script src="assets/scripts/factories/authFactory.js"></script>
   <script src="assets/scripts/factories/navFactory.js"></script>
@@ -34,24 +35,27 @@
   <!-- endinjector -->
 </head>
 <body>
-
+<h1 class = "logo">songspace</h1>
 <div class="nav">
-  <div class="logo"><h1>songspace</h1></div>
-
   <div class="header">
-    <h1><a ui-sref="search">search </a>
+    <h2><a ui-sref="search">search </a>
     -
     <a ui-sref="user">dashboard</a>
     <div id="audio"></div>
-    </h1>
+    </h2>
   </div>
-
+  <br />
+  <br />
   <div class="view" ui-view></div>
 </div>
 
-<div class="footer">
-<strong>/</strong> - toggle play
-<strong>\</strong> - reset cubes
+<div class="controls">
+<br />
+<strong>/ key</strong> - toggle play
+<br />
+<strong>\ key</strong> - reset cubes
+<br />
+click and drag to move
 </div>
 
 <div id="scene"></div>
