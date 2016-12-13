@@ -14,7 +14,7 @@
 
   //init
   function init() {
-    container = document.getElementById('scene')
+    // container = document.getElementById('scene') => results in undefined so quick fix is to use document.body in line 46
 
     //configure camera
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -43,7 +43,7 @@
     renderer.sortObjects = false;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
-    container.appendChild( renderer.domElement );
+    document.body.appendChild( renderer.domElement );
 
     //add listeners
     renderer.domElement.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -116,10 +116,12 @@
 
   function render() {
     var temp = false
-    for(var i = 0; i < scene.children.length; i ++){
-      scene.children[i].scale.y = boost[i * 100]/40 + 1
-      scene.children[i].rotation.y += 0.001
-    }
+    if(boost) {
+      for(var i = 0; i < scene.children.length; i++){
+        scene.children[i].scale.y = boost[i * 100]/40 + 1
+        scene.children[i].rotation.y += 0.001
+      }
+    } 
     renderer.render( scene, camera );
   }
 

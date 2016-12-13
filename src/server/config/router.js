@@ -2,6 +2,7 @@ const passportFile = require('./passportFile.js');
 
 module.exports = function(app, express) {
 
+  // passport body for authentication is in the passportFile.js described as strategy
   app.post('/login', passportFile.passport.authenticate('login'), (req, res) => {
     res.end();
   });
@@ -22,13 +23,10 @@ module.exports = function(app, express) {
     res.end();
   });
 
-/////////////////////////////////////////////////
-
 /**
  * Returns the username of the currently logged in session
  * on the passport object.
  */
-
   app.get('/getCurrentUsername', passportFile.isLoggedIn, (req, res) => {
     console.log('res of /getCurrentUsername is ', res);
     console.log('req.session.passport.user is ', req.session.passport.user);

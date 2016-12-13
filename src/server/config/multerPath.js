@@ -1,3 +1,6 @@
+// Multer is a node.js middleware for handling multipart/form-data,
+// which is primarily used for uploading files. 
+
 const multer = require('multer');
   
 const storage = multer.diskStorage({
@@ -7,6 +10,6 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage }).any();
-
+const upload = multer({ storage }).any();	// sets storage to line 6 and chaining .any()
+											// allows us to accept the uploads
 module.exports = upload;

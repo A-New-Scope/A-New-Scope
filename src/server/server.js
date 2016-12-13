@@ -4,7 +4,6 @@
 //FLASH SUCCESS/FAILURE MESSAGES ON EDIT AND LOGIN/SIGNUP
 
 /////////////////////////DEPENDENCIES///////////////////////
-
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -37,13 +36,14 @@ app.use(flash());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../client')));
 
-require('./config/router.js')(app, express);
-require('./config/uploadFile.js')(app, express, gfs, fsFile);
+require('./config/router.js')(app, express);	// router.js file exports a function requiring these two arguments
+require('./config/uploadFile.js')(app, express, gfs, fsFile);  // uploadFile.js exports a function with 4 params
 
 const port = process.env.PORT || 3300;
 app.listen(port);
 
 console.log('running on ', port);
+///////////////////////////////////////////////////////////////
 
 //-CLEAR IMPORTS PERIODICALLY
 setInterval(() => {
