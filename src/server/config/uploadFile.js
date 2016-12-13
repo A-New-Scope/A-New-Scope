@@ -3,7 +3,7 @@ const passportFile = require('./passportFile.js');
 const upload = require('./multerPath.js');
 
 
-module.exports = function(app, express, gfs, fsFile) {
+module.exports = function(app, express, gfs, fsFile) {   // these params are are coming from server.js
   //--UPLOAD SONG
   app.post('/upload', passportFile.isLoggedIn, upload, (req, res) => {
     if (!req.files[0]) {
@@ -13,14 +13,14 @@ module.exports = function(app, express, gfs, fsFile) {
       const writestream = gfs.createWriteStream({
         filename: temp, //filename to store in mongodb
         metadata: {
-          username: req.session.passport.user,
+          username: req.session.passport.user,  //username from session, store more specs in here
           songName: req.body.songName
-        } //username from session, store more specs in here
+        }
       });
-      fs.createReadStream(`./uploadTemp/${temp}`).pipe(writestream);
+      fs.createReadStream(`./uploadTemp/${temp}`).pipe(writestream);  // open a stream so we can start reading uploads
       writestream.on('close', file => {
         console.log(`${file.filename} written To DB`);
-        fs.unlink(`./uploadTemp/${temp}`);
+        fs.unlink(`./uploadTemp/${temp}`); // unlink() deletes a name from the filesystem and the space is made available for reuse
         res.redirect('/#/user');
       });
     }
